@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+    <h1>     Crear Oferta  </h1>
+
+    <form action = "/ofertas/crear_ofertas" metho = "POST" >
+        {% csrf_token %}
+
+        {{form}}
+
+        <button>
+            Save
+        </buttom>
+    </form>
+
+
+{% endblock %}

@@ -5,10 +5,28 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-
+from .forms import Formulatio_Oferta
+from django.http import HttpResponse
 
 # Create your views here.
 
+def ofertas(request):
+    return render(request, 'ofertas.html')
+
+def crear_ofertas(request):
+    
+    if request.method == 'GET':
+        return render(request, 'crear_ofertas.html', {
+        'form':Formulatio_Oferta 
+        })
+    else:
+        print(request.POST)
+        return render(request, 'crear_ofertas.html', {
+        'form':Formulatio_Oferta 
+        })
+
+
+# autenticación
 
 def signup(request):
     if request.method == 'GET':
@@ -49,3 +67,5 @@ def signin(request):
 
         login(request, user)
         return redirect('home')
+    
+
