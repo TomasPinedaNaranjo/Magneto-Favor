@@ -7,6 +7,8 @@ class Ofertas(models.Model):
     description = models.TextField(blank = True)
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
+    datecompleted = models.DateTimeField(null=True, blank=True)
+    
     class Meta:
         verbose_name_plural = "Ofertas"
     def __str__(self):

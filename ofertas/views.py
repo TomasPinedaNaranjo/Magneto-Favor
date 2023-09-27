@@ -7,26 +7,37 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .forms import Formulario_Oferta
 from django.http import HttpResponse
-
+from .models import Ofertas
 
 # Create your views here.
 
 def ofertas(request):
-    return render(request, 'ofertas.html')
+    lista_ofertas = Ofertas.objects.filter(datecompleted_isnull=True)
+    # si deseo que solo pueda ver las ofertas cierto grupo
+    # lista_ofertas = Ofertas.objects.filter(user=request.user)
+    return render(request, 'ofertas.html', {'Ofertas': lista_ofertas})
 
 def crear_ofertas(request):
     
     if request.method == 'GET':
         return render(request, 'crear_ofertas.html', {
-        'form': Formulario_Oferta 
+            'form': Formulario_Oferta 
         })
     else:
-        form = Formulario_Oferta(request.POST)
-        print(form)
-        return render(request, 'crear_ofertas.html', {
-        'form': Formulario_Oferta 
-        })
+        try:
+            form = Formulario_Oferta(request.POST)
+            nueva_oferta = form.save(commit=False)
+            nueva_oferta.user = request.user
+            nueva_oferta.save()
+            
+            return redirect('ofertas')
+        except ValueError:
+            return render(request, 'crear_ofertas.html', {
+                'form': Formulario_Oferta,
+                'error' : 'Proporcione un dato valido' 
+            })
 
+        
 
 # autenticación
 
