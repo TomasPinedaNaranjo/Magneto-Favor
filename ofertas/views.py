@@ -12,7 +12,7 @@ from .models import Ofertas
 # Create your views here.
 
 def ofertas(request):
-    lista_ofertas = Ofertas.objects.filter(datecompleted_isnull=True)
+    lista_ofertas = Ofertas.objects.all()
     # si deseo que solo pueda ver las ofertas cierto grupo
     # lista_ofertas = Ofertas.objects.filter(user=request.user)
     return render(request, 'ofertas.html', {'Ofertas': lista_ofertas})
