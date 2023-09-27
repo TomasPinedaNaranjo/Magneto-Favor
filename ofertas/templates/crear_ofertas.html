@@ -1,18 +1,27 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
-{% block content %} 
-    <h1>     Crear Oferta  </h1>
-    {{error}}
 
-    <form action = "/crear_ofertas/" method = "POST" >
+{% block content %}
+<div class="container mt-5">
+    <h1>Crear Oferta</h1>
+    {{ error }}
+
+    <form action="/crear_ofertas/" method="POST" required>
         {% csrf_token %}
-
-        {{form}}
-
-        <button >
-            Save
-        </buttom>
+        <div class="mb-3">
+            {% comment %} <label for="{{ form.title.id_for_label }}" class="form-label">Título</label> {% endcomment %}
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Tìtulo</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" {{form.title}}
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" {{ form.description }}
+                <label for="floatingTextarea2">Descipción</label>
+              </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
-
-
+</div>
 {% endblock %}
