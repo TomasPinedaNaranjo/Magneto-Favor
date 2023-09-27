@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .forms import Formulatio_Oferta
+from .forms import Formulario_Oferta
 from django.http import HttpResponse
+
 
 # Create your views here.
 
@@ -17,12 +18,13 @@ def crear_ofertas(request):
     
     if request.method == 'GET':
         return render(request, 'crear_ofertas.html', {
-        'form':Formulatio_Oferta 
+        'form': Formulario_Oferta 
         })
     else:
-        print(request.POST)
+        form = Formulario_Oferta(request.POST)
+        print(form)
         return render(request, 'crear_ofertas.html', {
-        'form':Formulatio_Oferta 
+        'form': Formulario_Oferta 
         })
 
 
