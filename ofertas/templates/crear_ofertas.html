@@ -2,13 +2,14 @@
 
 {% block content %} 
     <h1>     Crear Oferta  </h1>
+    {{error}}
 
-    <form action = "/ofertas/crear_ofertas" metho = "POST" >
+    <form action = "/crear_ofertas/" method = "POST" >
         {% csrf_token %}
 
         {{form}}
 
-        <button>
+        <button >
             Save
         </buttom>
     </form>

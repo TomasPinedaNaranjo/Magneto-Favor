@@ -1,7 +1,19 @@
 {% extends 'base.html' %} 
 
 {% block content %} 
-    <h1>
-      Publicar Oferta
-    </h1>
+  <h1>
+    Publicar Oferta
+  </h1>
+
+ <ul>
+   {% for ofertas in Ofertas %}
+   <li>
+      <h2>{{ofertas.title}}</h2>
+      <p>{{ofertas.description}}</p>
+      <p>{{ofertas.user.username}}</p>
+
+   </li>
+
+   {% endfor %}
+ </ul>
 {% endblock %}
