@@ -34,7 +34,7 @@ def crear_ofertas(request):
         except ValueError:
             return render(request, 'crear_ofertas.html', {
                 'form': Formulario_Oferta,
-                'error' : 'Proporcione un dato valido' 
+                'error' : 'Porfavor ingrese un título y una descripción válidas'
             })
 
         
@@ -54,9 +54,9 @@ def signup(request):
                 login(request, user)
                 return redirect('home')
             except IntegrityError:
-                return render(request, 'signup.html', {"form": UserCreationForm, "error": "Username already exists."})
+                return render(request, 'signup.html', {"form": UserCreationForm, "error": "Ese usuario ya existe, intente de nuevo porfavor"})
 
-        return render(request, 'signup.html', {"form": UserCreationForm, "error": "Passwords did not match."})
+        return render(request, 'signup.html', {"form": UserCreationForm, "error": "Las contraseñas no coinciden, intente de nuevo porfavor"})
 
 
 def home(request):
@@ -76,7 +76,7 @@ def signin(request):
         user = authenticate(
             request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
-            return render(request, 'signin.html', {"form": AuthenticationForm, "error": "Username or password is incorrect."})
+            return render(request, 'signin.html', {"form": AuthenticationForm, "error": "Usuario o contraseña incorrectas, intente de nuevo por favor"})
 
         login(request, user)
         return redirect('home')

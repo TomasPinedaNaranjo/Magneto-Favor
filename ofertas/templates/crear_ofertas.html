@@ -1,27 +1,110 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-
-{% block content %}
-<div class="container mt-5">
-    <h1>Crear Oferta</h1>
-    {{ error }}
-
-    <form action="/crear_ofertas/" method="POST" required>
-        {% csrf_token %}
-        <div class="mb-3">
-            {% comment %} <label for="{{ form.title.id_for_label }}" class="form-label">Título</label> {% endcomment %}
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Tìtulo</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" {{form.title}}
-            </div>
+<div
+  class="container container-crear-oferta text-light h-100 my-4 rounded-3 p-0"
+>
+  <div class="row my-4">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="d-flex justify-content-center my-4">
+          <h1 class="">Crear Oferta</h1>
         </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" {{ form.description }}
-                <label for="floatingTextarea2">Descipción</label>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="m-3 d-flex justify-content-center">
+        <img
+          class="w-50"
+          src="../static/public/undraw_businessman_e7v0.svg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="m-3 d-flex justify-content-center">
+        <p>¡Gracias por considerar MagnetoFavor como tu plataforma para promocionar tus servicios! En nuestra sección "Publicar Ofertas," te ofrecemos la oportunidad de llegar a una audiencia diversa y activa que busca servicios como el tuyo.</p>
+      </div>
+    </div>
+    <div class="row mx-auto">
+        <div class="col-sm-12 col-md-12">
+            <div class="m-3 justify-content-center bg-light text-dark p-3 rounded-2">
+              <h3 class="m-0 p-0 text-center">Ingrese los datos de su oferta</h3>
+              {% if error%}
+              <div
+                id="opened-alert"
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                <div>{{error}}</div>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                  id="close"
+                ></button>
               </div>
+              {% else %} {% endif %}
+              <div class="form my-4 text-light">
+                <form action="/crear_ofertas/" method="POST" required>
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <div class="input-group mb-3">
+                      <span
+                        class="input-group-text bg-dark text-light"
+                        id="inputGroup-sizing"
+                        >Título</span
+                      >
+                      <input type="text" class="form-control bg-dark text-light"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing" {{form.title}}
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <!-- <textarea
+                        class="form-control bg-dark text-light"
+                        id="floatingTextarea2"
+                        style="height: 200px"
+                        required
+                      ></textarea> -->
+                      <textarea class="form-control bg-dark text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 170px" {{ form.description }}
+                      <label for="floatingTextarea2">Descripción</label>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-file-earmark-plus-fill"></i> Publicar Oferta
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 p-5">
+            <h2>¿Qué servicios puedes ofrecer?</h2><br>
+            <p class="text-secondary">En MagnetoFavor, valoramos la variedad y la calidad de los servicios. Puedes publicar ofertas en una amplia gama de categorías, que incluyen:</p>
+
+            <ul>
+                <li><span>Jardinería</span></li>
+                <li><span>Servicios de Mesero</span></li>
+                <li><span>Cuidado del Hogar</span></li>
+                <li><span>Otros Servicios</span></li>
+            </ul>
+
+            <h2>¿Por qué elegir MagnetoFavor para publicar tus ofertas?</h2><br>
+            <li class="text-secondary"><strong class="text-white">Alcance y Visibilidad:</strong> MagnetoFavor cuenta con una base de usuarios activos en busca de servicios de calidad. Publicar tus ofertas aquí te brindará una amplia visibilidad y la oportunidad de llegar a nuevos clientes.</li><br>
+            <li class="text-secondary"><strong class="text-white">Facilidad de Uso:</strong> Nuestra plataforma es intuitiva y fácil de usar. Publicar tus ofertas es un proceso sencillo, lo que te permite centrarte en lo que haces mejor: brindar servicios excepcionales.</li><br>
+            <li class="text-secondary"><strong class="text-white">Comunidad Confiable:</strong> En MagnetoFavor, valoramos la confianza y la seguridad. Nuestra comunidad está formada por usuarios verificados y comprometidos.</li><br>
+            <li class="text-secondary"><strong class="text-white">Comentarios y Calificaciones:</strong> Los clientes pueden dejar comentarios y calificaciones, lo que te ayudará a construir una reputación sólida y ganar la confianza de futuros clientes.</li><br>
+            <p class="text-secondary">Únete a MagnetoFavor y comienza a publicar tus ofertas hoy mismo. Convierte tu pasión y experiencia en una fuente de ingresos mientras ayudas a satisfacer las necesidades de nuestra creciente comunidad de usuarios. ¡Esperamos verte prosperar en MagnetoFavor!</p>
         </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
+    </div>
+  </div>
 </div>
+
+
+<style>
+
+</style>
 {% endblock %}

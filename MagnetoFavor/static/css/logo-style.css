@@ -1,8 +1,0 @@
-/* Estilo para la imagen del logo */
-#logo {
-    position: absolute;
-    top: 10px; /* Ajusta la distancia desde la parte superior */
-    right: 10px; /* Ajusta la distancia desde la derecha */
-    width: 100px; /* Ajusta el ancho de la imagen */
-    height: auto; /* Ajusta la altura automáticamente */
-}
