@@ -5,3 +5,5 @@ class Formulario_Oferta(ModelForm):
     class Meta:
         model = Ofertas
         fields = ['title', 'description']
+        
+

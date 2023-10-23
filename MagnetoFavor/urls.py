@@ -26,4 +26,5 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('ofertas/', views.ofertas, name='ofertas'),
     path('crear_ofertas/', views.crear_ofertas, name='crear_ofertas'),
+    
 ]
