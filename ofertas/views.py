@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .forms import Formulario_Oferta
+from .forms import Formulario_Oferta, RatingForm
 from django.http import HttpResponse
-from .models import Ofertas
+from .models import Ofertas, Rating
 
 # Create your views here.
 
@@ -80,3 +80,28 @@ def signin(request):
 
         login(request, user)
         return redirect('home')
+
+# rating 
+@login_required
+def rate_offer(request, offer_id):
+    offer = Ofertas.objects.get(pk=offer_id)
+    user = request.user
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating, created = Rating.objects.get_or_create(offer=offer, user=user)
+            rating.rating = form.cleaned_data['rating']
+            rating.save()
+            return redirect('oferta_detalle', offer_id=offer_id)
+    else:
+        form = RatingForm()
+
+    return render(request, 'rate_offer.html', {'offer': offer, 'form': form})
+
+@login_required
+def view_ratings(request, offer_id):
+    offer = Ofertas.objects.get(pk=offer_id)
+    ratings = Rating.objects.filter(offer=offer)
+
+    return render(request, 'view_ratings.html', {'offer': offer, 'ratings': ratings})

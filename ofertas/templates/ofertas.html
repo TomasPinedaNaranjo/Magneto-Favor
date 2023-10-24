@@ -50,6 +50,9 @@
                     <cite title="Source Title">{{ofertas.user.username}}</cite>
                   </footer>
                 </blockquote>
+                {{ oferta.id }}
+                <a href="{% url 'calificar_oferta' oferta.id %}">Calificar esta oferta</a>
+                
               </div>
             </div>
             {% endfor %}

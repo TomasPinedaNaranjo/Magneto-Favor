@@ -1,0 +1,9 @@
+<h1>Calificaciones para la oferta: {{ offer.title }}</h1>
+
+<ul>
+  {% for rating in ratings %}
+    <li>{{ rating.user.username }} calificó con: {{ rating.rating }}</li>
+  {% empty %}
+    <li>No hay calificaciones aún.</li>
+  {% endfor %}
+</ul>
