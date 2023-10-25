@@ -20,8 +20,6 @@ class Ofertas(models.Model):
 class Rating(models.Model):
     offer = models.ForeignKey('Ofertas', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-
-    class Meta:
-        unique_together = ('offer', 'user')
-
+    overall_experience = models.PositiveIntegerField(default=5)
+    would_use_again = models.CharField(max_length=3)
+    improvement_suggestions = models.TextField(blank=True, null=True)

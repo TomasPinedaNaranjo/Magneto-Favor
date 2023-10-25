@@ -2,7 +2,14 @@
 
 <ul>
   {% for rating in ratings %}
-    <li>{{ rating.user.username }} calificó con: {{ rating.rating }}</li>
+    <li>
+      <strong>Calificación de {{ rating.user.username }}:</strong>
+      <ul>
+        <li>Calificación general: {{ rating.overall_experience }}</li>
+        <li>¿Volvería a pedir servicio con esta persona? {% if rating.would_use_again %}Sí{% else %}No{% endif %}</li>
+        <li>Recomendaciones para mejorar el servicio: {{ rating.improvement_suggestions }}</li>
+      </ul>
+    </li>
   {% empty %}
     <li>No hay calificaciones aún.</li>
   {% endfor %}

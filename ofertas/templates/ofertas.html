@@ -40,7 +40,9 @@
             {% for ofertas in Ofertas %}
             <div class="card text-bg-dark">
               <div class="card-header">
-                <h2 class="m-0 p-0">{{ofertas.title}}</h2>
+                <h2 class="m-0 p-0">
+                  <a href="{% url 'ver_oferta' ofertas.id %}">{{ oferta.title }}</a>
+                </h2>
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
@@ -50,9 +52,9 @@
                     <cite title="Source Title">{{ofertas.user.username}}</cite>
                   </footer>
                 </blockquote>
-                {{ oferta.id }}
-                <a href="{% url 'calificar_oferta' oferta.id %}">Calificar esta oferta</a>
-                
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'ver_oferta' ofertas.id %}" class="btn btn-primary">Ver Oferta</a>
               </div>
             </div>
             {% endfor %}

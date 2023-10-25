@@ -27,6 +27,6 @@ urlpatterns = [
     path('ofertas/', views.ofertas, name='ofertas'),
     path('crear_ofertas/', views.crear_ofertas, name='crear_ofertas'),
     path('ofertas/<int:offer_id>/calificar/', views.rate_offer, name='calificar_oferta'),
-    path('ofertas/<int:offer_id>/ver_calificacion/', views.view_ratings, name='calificaciones_oferta'),
-    
+    path('ofertas/<int:offer_id>/ver_rating/', views.view_ratings, name='view_rating'),
+    path('ver_oferta/<int:oferta_id>/', views.ver_oferta, name='ver_oferta'),
 ]

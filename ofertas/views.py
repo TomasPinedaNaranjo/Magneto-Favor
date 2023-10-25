@@ -90,18 +90,28 @@ def rate_offer(request, offer_id):
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
+            overall_experience = form.cleaned_data['overall_experience']
+            would_use_again = form.cleaned_data['would_use_again']
+            improvement_suggestions = form.cleaned_data['improvement_suggestions']
+
             rating, created = Rating.objects.get_or_create(offer=offer, user=user)
-            rating.rating = form.cleaned_data['rating']
+            rating.overall_experience = overall_experience
+            rating.would_use_again = would_use_again
+            rating.improvement_suggestions = improvement_suggestions
             rating.save()
-            return redirect('oferta_detalle', offer_id=offer_id)
+
+            return redirect('view_rating', offer_id=offer_id)
     else:
         form = RatingForm()
 
     return render(request, 'rate_offer.html', {'offer': offer, 'form': form})
-
 @login_required
 def view_ratings(request, offer_id):
     offer = Ofertas.objects.get(pk=offer_id)
     ratings = Rating.objects.filter(offer=offer)
 
     return render(request, 'view_ratings.html', {'offer': offer, 'ratings': ratings})
+
+def ver_oferta(request, oferta_id):
+    oferta = get_object_or_404(Ofertas, pk=oferta_id)
+    return render(request, 'ver_oferta.html', {'oferta': oferta})
