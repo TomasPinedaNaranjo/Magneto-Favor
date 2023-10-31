@@ -1,4 +1,15 @@
-{% extends 'base.html' %} {% block content %}
-<h1>Mapa</h1>
-<div id="map">{{ map|safe }}</div>
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    .centered-map {
+      width: 80%; /* Puedes ajustar el porcentaje o usar un valor específico en píxeles */
+      max-width: 1500px; /* Puedes ajustar el valor máximo */
+      margin: 0 auto; /* Centra horizontalmente el contenedor */
+      height: 500px; /* Puedes ajustar la altura según tus necesidades */
+    }
+  </style>
+
+  <h1>Mapa</h1>
+  <div id="map" class="centered-map">{{ map|safe }}</div>
 {% endblock %}
