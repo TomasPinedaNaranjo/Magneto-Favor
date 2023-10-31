@@ -8,8 +8,15 @@ from django.contrib.auth.decorators import login_required
 from .forms import Formulario_Oferta
 from django.http import HttpResponse
 from .models import Ofertas
+import folium
+
 
 # Create your views here.
+
+def mapa(request):
+    initialMap = folium.Map(location=[6.199939, -75.578608], zoom_start= 20)
+    context = {'map':initialMap._repr_html_()}
+    return render(request, 'mapa.html', context)
 
 def ofertas(request):
     lista_ofertas = Ofertas.objects.all()
