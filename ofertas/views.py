@@ -10,6 +10,20 @@ from django.http import HttpResponse
 from .models import Ofertas
 import folium
 
+def eliminar_oferta(request, oferta_id):
+    oferta = get_object_or_404(Ofertas, pk=oferta_id)
+
+    # Verificar si el usuario actual es el creador de la oferta
+    if oferta.user == request.user:
+        oferta.delete()  # Eliminar la oferta
+        # Redirigir al usuario a la página de ofertas nuevamente o a donde desees
+        return redirect('ofertas')
+    else:
+        # Manejar el caso en el que el usuario no tiene permiso para eliminar la oferta
+        # Puedes mostrar un mensaje de error o redirigirlo a otra página
+        # Aquí redirigimos al usuario a la página de ofertas
+        return redirect('ofertas')
+
 
 # Create your views here.
 
