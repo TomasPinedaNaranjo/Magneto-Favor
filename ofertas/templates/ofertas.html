@@ -37,10 +37,16 @@
                   </footer>
                 </blockquote>
                 {% if oferta.user == request.user %}
+                  <a href="{% url 'editar_oferta' oferta.id %}" class="btn btn-primary">Editar oferta</a>
                   <form method="post" action="{% url 'eliminar_oferta' oferta.id %}">
                       {% csrf_token %}
                       <button type="submit" class="btn btn-danger">Eliminar oferta</button>
                   </form>
+                  {% else %}
+        <form method="post" action="{% url 'accept_offer' oferta.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Aceptar oferta</button>
+        </form>
                 {% endif %}
               </div>
             </div>

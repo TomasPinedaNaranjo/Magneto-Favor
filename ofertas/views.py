@@ -42,10 +42,48 @@ def mapa(request):
     return render(request, 'mapa.html', context)
 
 def ofertas(request):
-    lista_ofertas = Ofertas.objects.all()
+    lista_ofertas = Ofertas.objects.exclude(aceptada=True)
     # si deseo que solo pueda ver las ofertas cierto grupo
     # lista_ofertas = Ofertas.objects.filter(user=request.user)
     return render(request, 'ofertas.html', {'Ofertas': lista_ofertas})
+
+
+def aceptar_oferta(request, oferta_id):
+    oferta = get_object_or_404(Ofertas, id=oferta_id)
+    
+    # Verifica si el usuario actual no es el propietario de la oferta
+    if request.user != oferta.user:
+        # Marca la oferta como aceptada
+        oferta.aceptada = True
+        oferta.aceptada_por = request.user  # Registra quién la aceptó
+        oferta.save()
+    
+    return redirect('ofertas')
+
+
+def ofertas_en_curso(request):
+    ofertas_en_curso = Ofertas.objects.filter(aceptada=True, aceptada_por=request.user)
+    
+    return render(request, 'ofertas_en_curso.html', {'OfertasEnCurso': ofertas_en_curso})
+
+
+
+def editar_oferta(request, oferta_id):
+    oferta = get_object_or_404(Ofertas, pk=oferta_id)
+    
+    # Verificar si el usuario actual es el creador de la oferta
+    if oferta.user != request.user:
+        return redirect('ofertas')  # O a otra página de error
+
+    if request.method == 'POST':
+        form = Formulario_Oferta(request.POST, instance=oferta)
+        if form.is_valid():
+            form.save()
+            return redirect('ofertas')  # Redirigir a la lista de ofertas después de la edición
+    else:
+        form = Formulario_Oferta(instance=oferta)  # Cargar los datos actuales de la oferta en el formulario
+
+    return render(request, 'editar_ofertas.html', {'form': form, 'oferta': oferta})
 
 def crear_ofertas(request):
     

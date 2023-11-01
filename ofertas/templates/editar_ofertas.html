@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container container-crear-oferta text-light h-100 my-4 rounded-3 p-0">
+  <div class="row my-4">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="d-flex justify-content-center my-4">
+          <h1 class="">Editar Oferta</h1>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="m-3 d-flex justify-content-center">
+        <img class="w-50" src="../static/public/undraw_businessman_e7v0.svg" alt="" />
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="m-3 d-flex justify-content-center">
+        <p>¡Aquí puedes realizar modificaciones en tu oferta! Actualiza los datos y haz clic en "Guardar" para aplicar los cambios.</p>
+      </div>
+    </div>
+    <div class="row mx-auto">
+      <div class="col-sm-12 col-md-12">
+        <div class="m-3 justify-content-center bg-light text-dark p-3 rounded-2">
+          <h3 class="m-0 p-0 text-center">Modifica los datos de tu oferta</h3>
+          {% if error %}
+          <div id="opened-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div>{{ error }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="close"></button>
+          </div>
+          {% else %}
+          {% endif %}
+          <div class="form my-4 text-light">
+            <form method="post" action="/editar_oferta/{{ oferta.id }}/" required>
+              {% csrf_token %}
+              <div class="mb-3">
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Título</span>
+                  <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" name="title" value="{{ oferta.title }}">
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Latitud</span>
+                  <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" name="lat" value="{{ oferta.lat }}">
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Longitud</span>
+                  <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" name="lng" value="{{ oferta.lng }}">
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="form-floating">
+                  <textarea class="form-control bg-dark text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 170px" name="description">{{ oferta.description }}</textarea>
+                  <label for="floatingTextarea2">Descripción</label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-file-earmark-plus-fill"></i> Guardar Oferta
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

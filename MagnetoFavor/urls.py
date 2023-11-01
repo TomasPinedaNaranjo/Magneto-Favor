@@ -28,5 +28,8 @@ urlpatterns = [
     path('crear_ofertas/', views.crear_ofertas, name='crear_ofertas'),
     path('mapa/', views.mapa, name='crear_ofertas'),
     path('eliminar_oferta/<int:oferta_id>/', views.eliminar_oferta, name='eliminar_oferta'),
+    path('editar_oferta/<int:oferta_id>/', views.editar_oferta, name='editar_oferta'),
+    path('aceptar_oferta/<int:oferta_id>/', views.aceptar_oferta, name='accept_offer'),
+    path('ofertas_en_curso/', views.ofertas_en_curso, name='ofertas_en_curso'),
     
 ]
