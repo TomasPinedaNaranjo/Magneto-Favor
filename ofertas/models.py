@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 class Ofertas(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank = True)
+    lat = models.FloatField(default=0.0, verbose_name='Latitud')
+    lng = models.FloatField(default=0.0, verbose_name='Longitud')
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     datecompleted = models.DateTimeField(null=True, blank=True)

@@ -46,36 +46,42 @@
               </div>
               {% else %} {% endif %}
               <div class="form my-4 text-light">
-                <form action="/crear_ofertas/" method="POST" required>
-                  {% csrf_token %}
-                  <div class="mb-3">
-                    <div class="input-group mb-3">
-                      <span
-                        class="input-group-text bg-dark text-light"
-                        id="inputGroup-sizing"
-                        >Título</span
-                      >
-                      <input type="text" class="form-control bg-dark text-light"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing" {{form.title}}
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <div class="form-floating">
-                      <!-- <textarea
-                        class="form-control bg-dark text-light"
-                        id="floatingTextarea2"
-                        style="height: 200px"
-                        required
-                      ></textarea> -->
-                      <textarea class="form-control bg-dark text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 170px" {{ form.description }}
-                      <label for="floatingTextarea2">Descripción</label>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-file-earmark-plus-fill"></i> Publicar Oferta
-                  </button>
-                </form>
+                <!-- ... Tu código HTML existente ... -->
+<div class="form my-4 text-light">
+  <form action="/crear_ofertas/" method="POST" required>
+    {% csrf_token %}
+    <div class="mb-3">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Título</span>
+        <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" {{form.title}}>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Latitud</span>
+        <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" {{form.lat}}>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Longitud</span>
+        <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" {{form.lng}}>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="form-floating">
+        <textarea class="form-control bg-dark text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 170px" {{ form.description }}>
+          <label for="floatingTextarea2">Descripción</label>
+        </textarea>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-file-earmark-plus-fill"></i> Publicar Oferta
+    </button>
+  </form>
+</div>
+<!-- ... Tu código HTML existente ... -->
+
               </div>
             </div>
           </div>

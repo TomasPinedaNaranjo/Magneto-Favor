@@ -4,6 +4,6 @@ from .models import Ofertas
 class Formulario_Oferta(ModelForm):
     class Meta:
         model = Ofertas
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'lat', 'lng']
         
 

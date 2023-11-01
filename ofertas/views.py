@@ -14,8 +14,17 @@ import folium
 # Create your views here.
 
 def mapa(request):
+    locations = Ofertas.objects.all()
+
     initialMap = folium.Map(location=[6.199939, -75.578608], zoom_start= 20)
-    context = {'map':initialMap._repr_html_()}
+
+    
+
+    for location in locations:
+        coordinates = (location.lat, location.lng)
+        folium.Marker(coordinates, popup='Oferta '+ location.title).add_to(initialMap)
+
+    context = {'map':initialMap._repr_html_(), 'locations': locations}    
     return render(request, 'mapa.html', context)
 
 def ofertas(request):
