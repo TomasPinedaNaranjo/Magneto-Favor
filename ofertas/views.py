@@ -148,3 +148,21 @@ def signin(request):
 
         login(request, user)
         return redirect('home')
+
+
+def cancelar_oferta(request, oferta_id):
+    print("Entrando a cancelar_oferta")  # Mensaje de depuración
+    oferta = get_object_or_404(Ofertas, pk=oferta_id)
+
+    if oferta.user == request.user or oferta.aceptada_por == request.user:
+        print("Usuario correcto")  # Mensaje de depuración
+        oferta.aceptada = False
+        oferta.aceptada_por = None
+        oferta.save()
+        
+        return redirect('ofertas_en_curso')  # Redirigir a la vista de "ofertas en curso" después de cancelar
+    else:
+        print("Usuario incorrecto")  # Mensaje de depuración
+        # Manejar el caso donde el usuario no tiene permiso para cancelar la oferta
+        # Puedes mostrar un mensaje de error o redirigir a otra página
+        return redirect('ofertas_en_curso')
