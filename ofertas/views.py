@@ -5,11 +5,16 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .forms import Formulario_Oferta
+from .forms import Formulario_Oferta, RatingForm
 from django.http import HttpResponse
-from .models import Ofertas
+from .models import Ofertas, Rating
 import folium
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 
+
+@login_required
 def eliminar_oferta(request, oferta_id):
     oferta = get_object_or_404(Ofertas, pk=oferta_id)
 
@@ -26,7 +31,7 @@ def eliminar_oferta(request, oferta_id):
 
 
 # Create your views here.
-
+@login_required
 def mapa(request):
     locations = Ofertas.objects.all()
 
@@ -41,13 +46,14 @@ def mapa(request):
     context = {'map':initialMap._repr_html_(), 'locations': locations}    
     return render(request, 'mapa.html', context)
 
+@login_required
 def ofertas(request):
     lista_ofertas = Ofertas.objects.exclude(aceptada=True)
     # si deseo que solo pueda ver las ofertas cierto grupo
     # lista_ofertas = Ofertas.objects.filter(user=request.user)
     return render(request, 'ofertas.html', {'Ofertas': lista_ofertas})
 
-
+@login_required
 def aceptar_oferta(request, oferta_id):
     oferta = get_object_or_404(Ofertas, id=oferta_id)
     
@@ -60,14 +66,14 @@ def aceptar_oferta(request, oferta_id):
     
     return redirect('ofertas')
 
-
+@login_required
 def ofertas_en_curso(request):
     ofertas_en_curso = Ofertas.objects.filter(aceptada=True, aceptada_por=request.user)
     
     return render(request, 'ofertas_en_curso.html', {'OfertasEnCurso': ofertas_en_curso})
 
 
-
+@login_required
 def editar_oferta(request, oferta_id):
     oferta = get_object_or_404(Ofertas, pk=oferta_id)
     
@@ -85,6 +91,7 @@ def editar_oferta(request, oferta_id):
 
     return render(request, 'editar_ofertas.html', {'form': form, 'oferta': oferta})
 
+@login_required
 def crear_ofertas(request):
     
     if request.method == 'GET':
@@ -149,7 +156,7 @@ def signin(request):
         login(request, user)
         return redirect('home')
 
-
+@login_required
 def cancelar_oferta(request, oferta_id):
     print("Entrando a cancelar_oferta")  # Mensaje de depuración
     oferta = get_object_or_404(Ofertas, pk=oferta_id)
@@ -166,3 +173,62 @@ def cancelar_oferta(request, oferta_id):
         # Manejar el caso donde el usuario no tiene permiso para cancelar la oferta
         # Puedes mostrar un mensaje de error o redirigir a otra página
         return redirect('ofertas_en_curso')
+
+# rating 
+@login_required
+def rate_offer(request, offer_id):
+    offer = Ofertas.objects.get(pk=offer_id)
+    user = request.user
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            overall_experience = form.cleaned_data['overall_experience']
+            would_use_again = form.cleaned_data['would_use_again']
+            improvement_suggestions = form.cleaned_data['improvement_suggestions']
+
+            rating, created = Rating.objects.get_or_create(offer=offer, user=user)
+            rating.overall_experience = overall_experience
+            rating.would_use_again = would_use_again
+            rating.improvement_suggestions = improvement_suggestions
+            rating.save()
+
+            return redirect('home')
+    else:
+        form = RatingForm()
+
+    return render(request, 'rate_offer.html', {'offer': offer, 'form': form})
+@login_required
+def view_ratings(request, offer_id):
+    offer = Ofertas.objects.get(pk=offer_id)
+    ratings = Rating.objects.filter(offer=offer)
+
+    return render(request, 'view_ratings.html', {'offer': offer, 'ratings': ratings})
+
+
+@login_required
+def edit_user(request):
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, 'Tu perfil ha sido actualizado con éxito.')
+            return redirect('home')  # Cambia 'home' a la URL de la página de inicio de tu aplicación
+    else:
+        form = UserChangeForm(instance=request.user)
+
+    return render(request, 'edit_user.html', {'form': form})
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Actualiza la sesión del usuario para evitar que se cierre la sesión
+            messages.success(request, 'Tu contraseña ha sido actualizada con éxito.')
+            return redirect('home')  # Cambia 'home' a la URL de la página de inicio de tu aplicación
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'change_password.html', {'form': form})
