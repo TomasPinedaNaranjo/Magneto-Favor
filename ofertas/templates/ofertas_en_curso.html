@@ -13,12 +13,14 @@
             <button type="submit" class="btn btn-warning">
               Cancelar oferta
             </button>
-
-            <button type="submit" class="btn btn-warning">
-              <a href="{% url 'calificar_oferta' oferta.id %}" >Calificar Oferta</a>
-            </button>
-
           </form>
+
+          {% if oferta.aceptada_por == request.user and not oferta.terminada %}
+          <form method="post" action="{% url 'servicio_terminado' oferta.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Terminar servicio</button>
+          </form>
+          {% endif %}
           
           </form>
         </div>

@@ -12,6 +12,7 @@ import folium
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+import logging
 
 
 @login_required
@@ -68,7 +69,7 @@ def aceptar_oferta(request, oferta_id):
 
 @login_required
 def ofertas_en_curso(request):
-    ofertas_en_curso = Ofertas.objects.filter(aceptada=True, aceptada_por=request.user)
+    ofertas_en_curso = Ofertas.objects.filter(aceptada=True, aceptada_por=request.user, terminada = False)
     
     return render(request, 'ofertas_en_curso.html', {'OfertasEnCurso': ofertas_en_curso})
 
@@ -232,3 +233,25 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
 
     return render(request, 'change_password.html', {'form': form})
+
+
+
+@login_required
+def servicio_terminado(request, oferta_id):
+    oferta = get_object_or_404(Ofertas, pk=oferta_id)
+
+    # Verificar si el usuario actual es el trabajador que aceptó la oferta
+    if oferta.aceptada_por == request.user:
+        oferta.terminada = True
+        oferta.fecha_terminacion = timezone.now()  # Establecer la fecha de terminación
+        oferta.save()
+
+
+    return redirect('ofertas_en_curso')
+
+
+@login_required
+def servicios_terminados(request):
+    servicios_realizados = Ofertas.objects.filter(terminada=True, aceptada_por=request.user)
+    
+    return render(request, 'servicios_terminados.html', {'ServiciosRealizados': servicios_realizados})

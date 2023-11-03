@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <h1>Servicios Realizados</h1>
+  <div class="row">
+    {% for oferta in ServiciosRealizados %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ oferta.title }}</h5>
+          <p class="card-text">{{ oferta.description }}</p>
+          {% if oferta.fecha_terminacion %}
+          <p class="text-success">
+            Servicio completado el {{ oferta.fecha_terminacion|date:"F d, Y" }}
+          </p>
+          {% endif %}
+          <button type="submit" class="btn btn-warning">
+            <a href="{% url 'calificar_oferta' oferta.id %}"
+              >Calificar empleador</a
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <!-- Agrega el cierre del for -->
+  </div>
+</div>
+{% endblock %}

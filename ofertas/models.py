@@ -10,6 +10,9 @@ class Ofertas(models.Model):
     lng = models.FloatField()
     aceptada = models.BooleanField(default=False)
     aceptada_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='ofertas_aceptadas')
+    #para verificar si la oferta se realizo o no
+    terminada = models.BooleanField(default=False)
+    fecha_terminacion = models.DateTimeField(null=True, blank=True)
 
     
     class Meta:
