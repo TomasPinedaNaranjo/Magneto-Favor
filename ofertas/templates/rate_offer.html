@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Calificar Oferta</title>
+
+</head>
+<body>
+    <form method="post" class="my-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.overall_experience.id_for_label }}">¿Cómo calificarías tu experiencia general con el servicio?</label>
+            {{ form.overall_experience }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.would_use_again.id_for_label }}">¿Volverías a pedir servicio con esta persona?</label>
+            {{ form.would_use_again }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.improvement_suggestions.id_for_label }}">Recomendaciones para mejorar el servicio</label>
+            {{ form.improvement_suggestions }}
+        </div>
+        <button type="submit" class="btn btn-primary">Calificar</button>
+    </form>
+
+</body>
+</html>
+{% endblock %}
