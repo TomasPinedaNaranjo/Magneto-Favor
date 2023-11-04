@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="profile-card">
+        <img src="{% static 'images_page/profile.png' %}" alt="profile" style="width: 100px; height: 100px;">
+        <h1>Mi Perfil</h1>
+        <p><i class="fa fa-envelope"></i> Email: {{ user.email }}</p>
+        <form method="post">
+            <div class="form-group">
+                {% csrf_token %}
+                <label for="email">Editar Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+            </div>
+            <button type="submit" class="button">Guardar Cambios</button>
+        </form>
+        <a href="{% url 'change_password' %}" class="button">Cambiar Contraseña </a>
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <h1>Ofertas en Curso</h1>
+  <div class="row">
+    {% for oferta in OfertasEnCurso %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ oferta.title }}</h5>
+          <p class="card-text">{{ oferta.description }}</p>
+          <form method="post" action="{% url 'cancelar_oferta' oferta.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">
+              Cancelar oferta
+            </button>
+          </form>
+
+          {% if oferta.aceptada_por == request.user and not oferta.terminada %}
+          <form method="post" action="{% url 'servicio_terminado' oferta.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Terminar servicio</button>
+          </form>
+          {% endif %}
+          
+          </form>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <p>No tienes ofertas en curso.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

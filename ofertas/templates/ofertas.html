@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container container-ofertas my-4 rounded-3 p-0">
+  <div class="row text-light my-4" id="ofertas-publicadas">
+    <div class="row">
+      <h1 class="text-center my-3">Ofertas Publicadas</h1>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="m-3 d-flex justify-content-center">
+        <img class="w-50" src="../static/public/undraw_analysis_dq08.svg" alt="" />
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="m-3">
+        <p class="">
+          ¡Bienvenido a nuestra emocionante sección de Publicaciones de Ofertas en MagnetoFavor! Aquí, te invitamos a explorar una amplia gama de ofertas irresistibles que hemos preparado especialmente para ti.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="m-3">
+          <h2 class="text-center my-5">Ofertas</h2>
+          <div class="ofertas-cards mt-4">
+            {% for oferta in Ofertas %}
+            <div class="card text-bg-dark">
+              <div class="card-header">
+                <h2 class="m-0 p-0">{{ oferta.title }}</h2>
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>{{ oferta.description }}</p>
+                  <footer class="blockquote-footer mt-2">
+                    Publicado por
+                    <cite title="Source Title">{{ oferta.user.username }}</cite>
+                  </footer>
+                </blockquote>
+                {% if oferta.user == request.user %}
+                  <a href="{% url 'editar_oferta' oferta.id %}" class="btn btn-primary">Editar oferta</a>
+                  <form method="post" action="{% url 'eliminar_oferta' oferta.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Eliminar oferta</button>
+                  </form>
+                  {% else %}
+        <form method="post" action="{% url 'accept_offer' oferta.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Aceptar oferta</button>
+        </form>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 p-5">
+        <h2 class="my-4">¿Qué encontrarás en esta sección?</h2>
+        <ul class="text-secondary">
+          <li>
+            <strong class="text-white">Descuentos Exclusivos:</strong> Te ofrecemos descuentos exclusivos en productos y servicios que te encantarán. Desde productos de alta calidad hasta experiencias inolvidables, siempre buscamos brindarte lo mejor a precios irresistibles.
+          </li>
+          <li>
+            <strong class="text-white">Promociones Temporales: </strong> Mantente actualizado con nuestras promociones temporales. Ya sea una venta especial de temporada o una oferta de fin de semana, encontrarás oportunidades únicas para ahorrar.
+          </li>
+          <li>
+            <strong class="text-white">Productos Destacados:</strong> Destacamos productos y servicios destacados de nuestra plataforma. Desde gadgets tecnológicos hasta artículos para el hogar, te mostramos lo más destacado de MagnetoFavor.
+          </li>
+          <li>
+            <strong class="text-white">Actualizaciones Frecuentes:</strong> Nuestra sección de Publicaciones de Ofertas se actualiza regularmente. No dejes de visitarnos para descubrir las últimas ofertas y novedades.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .ofertas-cards,
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 15px;
+  }
+</style>
+{% endblock %}

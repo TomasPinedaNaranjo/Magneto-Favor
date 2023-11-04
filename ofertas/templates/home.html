@@ -1,0 +1,176 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="container container-home text-light">
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <h1 class="fw-bold">¡Hola!</h1>
+      <h2 class="text-dark-emphasis fw-normal mb-4">
+        Bienvenido a <span class="m-f fw-bold">M</span>agneto
+        <span class="m-f fw-bold">F</span>avor
+      </h2>
+      <h4 class="fw-light text-white-50">
+        ¡La nueva plataforma que te conectará con tu próximo
+        <a href="/signin"><span class="bg-mf rounded px-2">empleo</span></a>
+        temporal o permanente en un instante!
+      </h4>
+      <h2 class="my-5 bg-mf rounded p-2 text-center">
+        <a href="signin/">Iniciar ahora mismo</a>
+      </h2>
+    </div>
+    <div
+      class="col-sm-12 col-md-6 overflow-hidden d-flex justify-content-center"
+    >
+      <img
+        src="../static/public/tasks.svg"
+        width="350px"
+        height="auto"
+        alt="imagen conectando"
+      />
+    </div>
+  </div>
+  <div class="row mt-5">
+    <h1 class="text-center">¿Por qué iniciar con nosotros?</h1>
+    <div class="col-12">
+      <div class="row d-flex mt-5 justify-content-around">
+        <div
+          class="why-card col-sm-12 col-md-3 d-flex flex-column align-items-center mt-5"
+        >
+          <div class="why-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              fill="currentColor"
+              class="bi bi-hourglass-split"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"
+              />
+            </svg>
+          </div>
+          <div class="why title text-center my-3">
+            <h4>Rapidez</h4>
+          </div>
+          <div class="why-reason">
+            <p>
+              En MagnetoFavor, entendemos la importancia del tiempo en tu vida
+              cotidiana. Nuestra plataforma se destaca por su rapidez y
+              eficiencia. Ya sea que estés buscando un servicio o deseas
+              publicar una oferta, puedes contar con nosotros para que todo
+              suceda de manera rápida y sin complicaciones. Navega por nuestra
+              plataforma de manera ágil, encuentra lo que necesitas en segundos
+              y ahorra tiempo para disfrutar de lo que realmente importa.
+            </p>
+          </div>
+        </div>
+        <div
+          class="why-card col-sm-12 col-md-3 d-flex flex-column align-items-center mt-5"
+        >
+          <div class="why-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              fill="currentColor"
+              class="bi bi-shield-fill-check"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647z"
+              />
+            </svg>
+          </div>
+          <div class="why title text-center my-3">
+            <h4>Seguridad</h4>
+          </div>
+          <div class="why-reason">
+            <p>
+              La seguridad es una prioridad en MagnetoFavor. Nos comprometemos a
+              proteger tus datos personales y tu información financiera. Todos
+              los usuarios son verificados para garantizar la confiabilidad de
+              nuestra comunidad. Además, ofrecemos opciones de comunicación
+              segura para que puedas interactuar con confianza tanto como
+              proveedor de servicios como cliente. Tu tranquilidad es nuestra
+              responsabilidad.
+            </p>
+          </div>
+        </div>
+        <div
+          class="why-card col-sm-12 col-md-3 d-flex flex-column align-items-center mt-5"
+        >
+          <div class="why-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              fill="currentColor"
+              class="bi bi-cash-coin"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"
+              />
+              <path
+                d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z"
+              />
+              <path
+                d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z"
+              />
+              <path
+                d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"
+              />
+            </svg>
+          </div>
+          <div class="why title text-center my-3">
+            <h4>Pagos</h4>
+          </div>
+          <div class="why-reason">
+            <p>
+              En MagnetoFavor, hemos simplificado el proceso de pagos para que
+              sea cómodo y seguro. Tanto si estás ofreciendo servicios como
+              cliente, puedes disfrutar de opciones de pago flexibles. Aceptamos
+              diversas formas de pago y garantizamos transacciones seguras. Así,
+              puedes realizar y recibir pagos de manera conveniente, sin
+              preocupaciones.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  a {
+    text-decoration: none;
+    color: #fff;
+    transition: all 200ms ease-in-out;
+  }
+
+  a:hover {
+    color: #a4a4a4;
+  }
+
+  .m-f {
+    color: #4262eb;
+  }
+
+  .bg-mf {
+    color: #fff;
+    background-color: #4262eb;
+  }
+
+  .why-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4262eb;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+  }
+</style>
+{% endblock %}
