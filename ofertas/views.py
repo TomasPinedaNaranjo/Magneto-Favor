@@ -5,11 +5,11 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .forms import Formulario_Oferta, RatingForm, PaymentForm
+from .forms import Formulario_Oferta, RatingForm, PaymentForm, CustomPasswordChangeForm
 from django.http import HttpResponse
 from .models import Ofertas, Rating
 import folium
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 import logging
@@ -222,14 +222,14 @@ def edit_user(request):
 @login_required
 def change_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Actualiza la sesión del usuario para evitar que se cierre la sesión
             messages.success(request, 'Tu contraseña ha sido actualizada con éxito.')
             return redirect('home')  # Cambia 'home' a la URL de la página de inicio de tu aplicación
     else:
-        form = PasswordChangeForm(request.user)
+        form = CustomPasswordChangeForm(request.user)
 
     return render(request, 'change_password.html', {'form': form})
 
@@ -255,6 +255,7 @@ def servicios_terminados(request):
     
     return render(request, 'servicios_terminados.html', {'ServiciosRealizados': servicios_realizados})
 
+@login_required
 def pasarela_pago(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
