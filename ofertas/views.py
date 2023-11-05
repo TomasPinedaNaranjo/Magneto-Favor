@@ -13,6 +13,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 import logging
+from django.db.models import Q
 
 @login_required
 def eliminar_oferta(request, oferta_id):
@@ -48,10 +49,15 @@ def mapa(request):
 
 @login_required
 def ofertas(request):
+    query = request.GET.get("q")
     lista_ofertas = Ofertas.objects.exclude(aceptada=True)
-    # si deseo que solo pueda ver las ofertas cierto grupo
-    # lista_ofertas = Ofertas.objects.filter(user=request.user)
-    return render(request, 'ofertas.html', {'Ofertas': lista_ofertas})
+
+    if query:
+        lista_ofertas = lista_ofertas.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    return render(request, 'ofertas.html', {'Ofertas': lista_ofertas, 'query': query})
 
 @login_required
 def aceptar_oferta(request, oferta_id):
