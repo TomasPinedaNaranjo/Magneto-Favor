@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .forms import Formulario_Oferta, RatingForm
+from .forms import Formulario_Oferta, RatingForm, PaymentForm
 from django.http import HttpResponse
 from .models import Ofertas, Rating
 import folium
@@ -13,7 +13,6 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 import logging
-
 
 @login_required
 def eliminar_oferta(request, oferta_id):
@@ -255,3 +254,18 @@ def servicios_terminados(request):
     servicios_realizados = Ofertas.objects.filter(terminada=True, aceptada_por=request.user)
     
     return render(request, 'servicios_terminados.html', {'ServiciosRealizados': servicios_realizados})
+
+def pasarela_pago(request):
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            # Procesar la información de pago (simulación)
+            amount = form.cleaned_data['amount']
+            # Realiza aquí la lógica de procesamiento de pago (puede ser una simulación)
+            # Asegúrate de manejar la información de pago de manera segura en una aplicación real.
+
+            return render(request, 'pago_exitoso.html', {'amount': amount})
+    else:
+        form = PaymentForm()
+
+    return render(request, 'formulario_pago.html', {'form': form})

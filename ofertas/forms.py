@@ -46,3 +46,9 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     class Meta:
         model = User  # Utiliza el modelo de usuario predeterminado de Django
         
+#pasarela de pago
+class PaymentForm(forms.Form):
+    card_number = forms.CharField(label='Número de tarjeta', max_length=16)
+    card_expiry = forms.CharField(label='Fecha de vencimiento (MM/YY)', max_length=5)
+    card_cvv = forms.CharField(label='CVV', max_length=3)
+    amount = forms.DecimalField(label='Monto a pagar')

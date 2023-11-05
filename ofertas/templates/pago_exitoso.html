@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pago Exitoso</title>
+</head>
+<body>
+    <h1>Pago Exitoso</h1>
+    <p>¡Gracias por su pago de {{ amount }} COP!</p>
+    <a href="{% url 'home' %}">Volver a página principal</a>
+</body>
+</html>
+{% endblock %}
+
