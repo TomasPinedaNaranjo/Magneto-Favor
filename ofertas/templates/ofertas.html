@@ -22,7 +22,21 @@
       <div class="col-sm-12 col-md-12">
         <div class="m-3">
           <h2 class="text-center my-5">Ofertas</h2>
+
+          <!-- Formulario de búsqueda -->
+          <form method="get" class="form-inline justify-content-center mb-4">
+            <div class="input-group">
+              <input type="text" class="form-control" name="q" placeholder="Buscar ofertas">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+              </div>
+            </div>
+          </form>
+
           <div class="ofertas-cards mt-4">
+            {% if query %}
+              <p>Resultados de búsqueda para "{{ query }}":</p>
+            {% endif %}
             {% for oferta in Ofertas %}
             <div class="card text-bg-dark">
               <div class="card-header">
@@ -42,11 +56,11 @@
                       {% csrf_token %}
                       <button type="submit" class="btn btn-danger">Eliminar oferta</button>
                   </form>
-                  {% else %}
-        <form method="post" action="{% url 'accept_offer' oferta.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Aceptar oferta</button>
-        </form>
+                {% else %}
+                  <form method="post" action="{% url 'accept_offer' oferta.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary">Aceptar oferta</button>
+                  </form>
                 {% endif %}
               </div>
             </div>
