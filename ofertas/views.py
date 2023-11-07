@@ -14,6 +14,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 import logging
 from django.db.models import Q
+from django.core.mail import EmailMessage
 
 @login_required
 def eliminar_oferta(request, oferta_id):
@@ -69,6 +70,8 @@ def aceptar_oferta(request, oferta_id):
         oferta.aceptada = True
         oferta.aceptada_por = request.user  # Registra quién la aceptó
         oferta.save()
+        #se llama la funcion
+        mandar_email(oferta, request.user)
     
     return redirect('ofertas')
 
@@ -276,3 +279,19 @@ def pasarela_pago(request):
         form = PaymentForm()
 
     return render(request, 'formulario_pago.html', {'form': form})
+
+
+#mandar email de oferta aceptada
+def mandar_email(oferta, usuario_que_acepto):
+    subject = "Acaban de aceptar tu oferta de trabajo!"
+    message = f"¡Felicidades! Tu oferta de trabajo titulada '{oferta.title}' ha sido aceptada por {usuario_que_acepto.username}. Puedes ponerte en contacto con el prestador mediante su correo ({usuario_que_acepto.email}) para continuar el proceso."
+    from_email = "tu_correo@gmail.com"  # Cambia esto al correo del remitente
+    recipient_list = [oferta.user.email]  # Utiliza la dirección de correo electrónico del propietario de la oferta
+    email = EmailMessage(subject, message, from_email, recipient_list)
+    
+    try:
+        email.send()
+    except Exception as e:
+        # Maneja cualquier error que pueda ocurrir al enviar el correo electrónico
+        # Puedes registrar el error en los registros de tu aplicación o manejarlo de otra manera
+        pass
