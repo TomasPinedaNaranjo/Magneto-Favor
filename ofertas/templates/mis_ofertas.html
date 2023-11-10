@@ -1,0 +1,51 @@
+{% extends 'base.html' %}{% block content %}
+<div class="container">
+    <h1>Mis ofertas</h1>
+    <div class="row">
+        {% for oferta in ofertas %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ oferta.title }}</h5>
+                    <p class="card-text">{{ oferta.description }}</p>
+                    {% if oferta.aceptada %}
+                        <p>Aceptada por: {{ oferta.aceptada_por.username }}</p>
+                    {% else %}
+                        <p>Aún no ha sido aceptada.</p>
+                    {% endif %}
+                    {% if oferta.terminada %}
+                        <p>Estado: Fue completada</p>
+                    {% else %}
+                        <p>Estado: Sin completar</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No tienes ofertas en curso.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+
+{% for oferta in ofertas %}
+      <li>
+        <strong>{{ oferta.title }}</strong>
+        <p>{{ oferta.description }}</p>
+        {% if oferta.aceptada %}
+          <p>Aceptada por: {{ oferta.aceptada_por.username }}</p>
+        {% else %}
+          <p>Aún no ha sido aceptada.</p>
+        {% endif %}
+        <!-- Agrega botones o enlaces para editar o eliminar las ofertas aquí si lo necesitas -->
+      </li>
+    {% endfor %}

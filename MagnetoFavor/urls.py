@@ -47,5 +47,6 @@ urlpatterns = [
     path('servicio_terminado/<int:oferta_id>/', views.servicio_terminado, name='servicio_terminado') ,
     path('servicios_terminados', views.servicios_terminados, name='servicios_terminados'),
     #pasarela de pago
-    path('pagar/', views.pasarela_pago, name='pasarela_pago'), 
+    path('pagar/', views.pasarela_pago, name='pasarela_pago'),
+    path('mis_ofertas/', views.mis_ofertas, name='mis_ofertas'), 
 ]

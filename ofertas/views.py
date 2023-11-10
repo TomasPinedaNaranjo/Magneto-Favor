@@ -16,6 +16,52 @@ import logging
 from django.db.models import Q
 from django.core.mail import EmailMessage
 
+#aplica el principio DRY
+
+def manejar_formulario_oferta(request, form_class, template_name, redirect_url, oferta=None):
+    if request.method == 'POST':
+        form = form_class(request.POST, instance=oferta)
+        if form.is_valid():
+            nueva_oferta = form.save(commit=False)
+            if not oferta:
+                #se esta creando una nueva oferta, adigna el user actual
+                #(request.user) como el creador antes de guardar en la db
+                nueva_oferta.user = request.user
+            nueva_oferta.save()
+            return redirect(redirect_url)
+        else:
+            return render(request, template_name, {
+                'form': form_class(instance=oferta),
+                'error': 'Por favor ingrese datos válidos.'
+            })
+    #si es GET, muestra la pagina con el formulario
+    else:
+        form = form_class(instance=oferta)
+        return render(request, template_name, {'form': form})
+
+@login_required
+def crear_ofertas(request):
+    return manejar_formulario_oferta(
+        request,
+        Formulario_Oferta,
+        'crear_ofertas.html',
+        'ofertas')
+
+@login_required
+def editar_oferta(request, oferta_id):
+    oferta = get_object_or_404(Ofertas, pk=oferta_id)
+    if oferta.user != request.user:
+        return redirect('ofertas')  # O a otra página de error
+
+    return manejar_formulario_oferta(
+        request,
+        Formulario_Oferta,
+        'editar_ofertas.html',
+        'ofertas',
+        oferta)
+
+
+
 @login_required
 def eliminar_oferta(request, oferta_id):
     oferta = get_object_or_404(Ofertas, pk=oferta_id)
@@ -82,49 +128,24 @@ def ofertas_en_curso(request):
     return render(request, 'ofertas_en_curso.html', {'OfertasEnCurso': ofertas_en_curso})
 
 
-@login_required
-def editar_oferta(request, oferta_id):
-    oferta = get_object_or_404(Ofertas, pk=oferta_id)
-    
-    # Verificar si el usuario actual es el creador de la oferta
-    if oferta.user != request.user:
-        return redirect('ofertas')  # O a otra página de error
-
-    if request.method == 'POST':
-        form = Formulario_Oferta(request.POST, instance=oferta)
-        if form.is_valid():
-            form.save()
-            return redirect('ofertas')  # Redirigir a la lista de ofertas después de la edición
-    else:
-        form = Formulario_Oferta(instance=oferta)  # Cargar los datos actuales de la oferta en el formulario
-
-    return render(request, 'editar_ofertas.html', {'form': form, 'oferta': oferta})
-
-@login_required
-def crear_ofertas(request):
-    
-    if request.method == 'GET':
-        return render(request, 'crear_ofertas.html', {
-            'form': Formulario_Oferta 
-        })
-    else:
-        try:
-            form = Formulario_Oferta(request.POST)
-            nueva_oferta = form.save(commit=False)
-            nueva_oferta.user = request.user
-            nueva_oferta.save()
-            
-            return redirect('ofertas')
-        except ValueError:
-            return render(request, 'crear_ofertas.html', {
-                'form': Formulario_Oferta,
-                'error' : 'Porfavor ingrese un título y una descripción válidas'
-            })
-
         
+
+
+
+def home(request):
+    return render(request, 'home.html')
+
+
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('home')
+
 
 # autenticación
 
+#antes:
+'''
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {"form": UserCreationForm})
@@ -141,18 +162,65 @@ def signup(request):
                 return render(request, 'signup.html', {"form": UserCreationForm, "error": "Ese usuario ya existe, intente de nuevo porfavor"})
 
         return render(request, 'signup.html', {"form": UserCreationForm, "error": "Las contraseñas no coinciden, intente de nuevo porfavor"})
+'''
+def signup(request):
+    if request.method == 'GET':
+        return render(request, 'signup.html', {"form": UserCreationForm()})
+    else:
+        # Instanciar el formulario con los datos enviados
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            try:
+                user = form.save()  # Esto guarda al usuario y lo valida
+                login(request, user)
+                # Redirigir al usuario con un mensaje de éxito
+                return redirigir_con_mensaje(request, 'home', "Registro exitoso.")
+            except IntegrityError:
+                # Usar la función de utilidad para manejar el error de integridad
+                return manejar_error_autenticacion(
+                    request, 
+                    UserCreationForm(), 
+                    'signup.html', 
+                    "Ese nombre de usuario ya existe. Por favor, elija uno diferente.")
+        else:
+            # Si el formulario no es válido, puede ser debido a contraseñas que no coinciden u otros errores de validación
+            return manejar_error_autenticacion(
+                request, 
+                form, 
+                'signup.html', 
+                "Hubo un error en su registro. Por favor, revise los datos introducidos.")
 
 
-def home(request):
-    return render(request, 'home.html')
+
+# Utilidades generales para manejar redirecciones y errores
+def redirigir_con_mensaje(request, url_name, mensaje, nivel=messages.INFO):
+    messages.add_message(request, nivel, mensaje)
+    return redirect(url_name)
+
+def manejar_error_autenticacion(request, form, template_name, mensaje_error):
+    return render(request, template_name, {
+        "form": form,
+        "error": mensaje_error
+    })
+
+# Ejemplo de aplicación en la función de signin
+def signin(request):
+    if request.method == 'GET':
+        return render(request, 'signin.html', {"form": AuthenticationForm})
+    else:
+        user = authenticate(
+            request, username=request.POST['username'], password=request.POST['password']
+        )
+        if user is None:
+            return manejar_error_autenticacion(
+                request, AuthenticationForm, 'signin.html',
+                "Usuario o contraseña incorrectas, intente de nuevo por favor")
+        login(request, user)
+        return redirigir_con_mensaje(request, 'home', "Inicio de sesión exitoso")
 
 
-@login_required
-def signout(request):
-    logout(request)
-    return redirect('home')
-
-
+#antes
+'''
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html', {"form": AuthenticationForm})
@@ -164,6 +232,7 @@ def signin(request):
 
         login(request, user)
         return redirect('home')
+'''
 
 @login_required
 def cancelar_oferta(request, oferta_id):
@@ -295,3 +364,9 @@ def mandar_email(oferta, usuario_que_acepto):
         # Maneja cualquier error que pueda ocurrir al enviar el correo electrónico
         # Puedes registrar el error en los registros de tu aplicación o manejarlo de otra manera
         pass
+
+
+@login_required
+def mis_ofertas(request):
+    ofertas_usuario = Ofertas.objects.filter(user=request.user).select_related('aceptada_por')
+    return render(request, 'mis_ofertas.html', {'ofertas': ofertas_usuario})
