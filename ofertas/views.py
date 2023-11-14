@@ -145,7 +145,7 @@ def signout(request):
 # autenticación
 
 #antes:
-'''
+
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {"form": UserCreationForm})
@@ -162,6 +162,7 @@ def signup(request):
                 return render(request, 'signup.html', {"form": UserCreationForm, "error": "Ese usuario ya existe, intente de nuevo porfavor"})
 
         return render(request, 'signup.html', {"form": UserCreationForm, "error": "Las contraseñas no coinciden, intente de nuevo porfavor"})
+
 '''
 def signup(request):
     if request.method == 'GET':
@@ -190,7 +191,7 @@ def signup(request):
                 'signup.html', 
                 "Hubo un error en su registro. Por favor, revise los datos introducidos.")
 
-
+'''
 
 # Utilidades generales para manejar redirecciones y errores
 def redirigir_con_mensaje(request, url_name, mensaje, nivel=messages.INFO):
@@ -203,6 +204,7 @@ def manejar_error_autenticacion(request, form, template_name, mensaje_error):
         "error": mensaje_error
     })
 
+'''
 # Ejemplo de aplicación en la función de signin
 def signin(request):
     if request.method == 'GET':
@@ -217,10 +219,10 @@ def signin(request):
                 "Usuario o contraseña incorrectas, intente de nuevo por favor")
         login(request, user)
         return redirigir_con_mensaje(request, 'home', "Inicio de sesión exitoso")
-
+'''
 
 #antes
-'''
+
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html', {"form": AuthenticationForm})
@@ -232,7 +234,7 @@ def signin(request):
 
         login(request, user)
         return redirect('home')
-'''
+
 
 @login_required
 def cancelar_oferta(request, oferta_id):
