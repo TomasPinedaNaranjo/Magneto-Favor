@@ -1,0 +1,37 @@
+<!-- chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-display"></div>
+        <input type="text" id="user-input" placeholder="Escribe tu mensaje..." />
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var user_input = document.getElementById('user-input').value;
+
+            // Enviar la solicitud al servidor Django
+            fetch('/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ user_input: user_input })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar la respuesta en el chat
+                document.getElementById('chat-display').innerHTML += `<p>Asistente: ${data.response}</p>`;
+            });
+        }
+    </script>
+</body>
+</html>

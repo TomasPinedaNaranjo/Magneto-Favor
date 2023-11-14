@@ -48,4 +48,6 @@ urlpatterns = [
     path('servicios_terminados', views.servicios_terminados, name='servicios_terminados'),
     #pasarela de pago
     path('pagar/', views.pasarela_pago, name='pasarela_pago'), 
+    #chatgpt
+    path('chat/', views.chat_view, name='chat'),
 ]

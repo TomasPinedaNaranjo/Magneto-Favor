@@ -16,6 +16,12 @@ import logging
 from django.db.models import Q
 from django.core.mail import EmailMessage
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import openai
+import json
+
+
 @login_required
 def eliminar_oferta(request, oferta_id):
     oferta = get_object_or_404(Ofertas, pk=oferta_id)
@@ -295,3 +301,26 @@ def mandar_email(oferta, usuario_que_acepto):
         # Maneja cualquier error que pueda ocurrir al enviar el correo electrónico
         # Puedes registrar el error en los registros de tu aplicación o manejarlo de otra manera
         pass
+    
+
+#implementar chatgpt
+def chat_view(request):
+    if request.method == 'POST':
+        user_input = request.POST.get('user_input')
+        response = generate_response(user_input)
+        return JsonResponse({'response': response})
+
+    return render(request, 'chat.html')
+
+def generate_response(user_input):
+    openai.api_key = "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"
+
+    prompt = f"Usuario: {user_input}\nAsistente:"
+
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=150
+    )
+
+    return response['choices'][0]['text'].strip()
