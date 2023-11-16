@@ -49,4 +49,7 @@ urlpatterns = [
     #pasarela de pago
     path('pagar/', views.pasarela_pago, name='pasarela_pago'),
     path('mis_ofertas/', views.mis_ofertas, name='mis_ofertas'), 
+    #chatbot
+    path('chat/', views.chat, name='chat'),
+    path('get_bot_response/', views.get_bot_response, name='get_bot_response'),
 ]
