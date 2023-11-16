@@ -16,11 +16,10 @@ import logging
 from django.db.models import Q
 from django.core.mail import EmailMessage
 
+import openai
+import os
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import openai
-import json
-
 
 @login_required
 def eliminar_oferta(request, oferta_id):
@@ -304,23 +303,69 @@ def mandar_email(oferta, usuario_que_acepto):
     
 
 #implementar chatgpt
-def chat_view(request):
-    if request.method == 'POST':
-        user_input = request.POST.get('user_input')
-        response = generate_response(user_input)
-        return JsonResponse({'response': response})
 
-    return render(request, 'chat.html')
 
-def generate_response(user_input):
-    openai.api_key = "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"
+# Retrieve the OpenAI API key from the environment variables
+openai.api_key = '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'
 
-    prompt = f"Usuario: {user_input}\nAsistente:"
+def get_completion_from_messages(messages, model="gpt-3.5-turbo", temperature=0):
+    user_messages = [{'role': msg['role'], 'content': msg['content']} for msg in messages if msg['role'] == 'user']
+    assistant_messages = [{'role': msg['role'], 'content': msg['content']} for msg in messages if msg['role'] == 'assistant']
+
+    prompt = ""
+    for msg in user_messages:
+        prompt += f"{msg['content']}\n"
+
+    # Add the assistant's messages to the prompt
+    for msg in assistant_messages:
+        prompt += f"{msg['role']}: {msg['content']}\n"
 
     response = openai.Completion.create(
-        engine="text-davinci-002",
+        engine=model,
         prompt=prompt,
-        max_tokens=150
+        temperature=temperature,
+        max_tokens=150,  # Adjust as needed
     )
 
-    return response['choices'][0]['text'].strip()
+    return response.choices[0].text.strip()
+def collect_messages(prompt, context):
+    context.append({'role': 'user', 'content': f"{prompt}"})
+    response = get_completion_from_messages(context)
+    context.append({'role': 'assistant', 'content': f"{response}"})
+    print(f"Asistente: {response}")
+    return response
+
+
+context = [{'role': 'system', 'content': """
+    Eres un asistente virtual de MagnetoFavor tu labor es resolver dudas a los usuarios sobre la plataforma/
+    Primero saludas al usuario y te ofreces a solucionar inquietudes/
+    El contexto de la plataforma MagnetoFavor es una plataforma web que le permite a los usuario publicar ofertas de trabajos informales como meseros, pintores, carpinteros, paseadores de perros, manicuristas entre otros. Y también permite la contratación de estos mismos servicios, importante que sea en español/
+    El funcionamiento de la plataforma es el siguiente, se registran y tienen las siguientes opciones en la barra de navegación/
+    Ofertas: Acá se visualizan las ofertas publicadas y puede usar un buscador para filtrar ofertas por las necesidades correspondientes/
+    Mapa: Permite ver las ofertas publicadas en la zona/
+    Ofertas en Curso: Es la opción que muestra las ofertas tomadas por el usuario/
+    Servicios terminados: Es el historial de los servicios finalizados tiene la opción de calificar el servicio y pagar este mismo/
+    Crear Oferta: Aquí los que deseen prestar sus servicios pueden publicarlos/
+    Mi perfil: En esta opción pueden modificar, actualizar su información personal/
+    ¿Por qué elegir MagnetoFavor para publicar tus ofertas?/
+    Alcance y Visibilidad: MagnetoFavor cuenta con una base de usuarios activos en busca de servicios de calidad. Publicar tus ofertas aquí te brindará una amplia visibilidad y la oportunidad de llegar a nuevos clientes./
+    Facilidad de Uso: Nuestra plataforma es intuitiva y fácil de usar. Publicar tus ofertas es un proceso sencillo, lo que te permite centrarte en lo que haces mejor: brindar servicios excepcionales./
+    Comunidad Confiable: En MagnetoFavor, valoramos la confianza y la seguridad. Nuestra comunidad está formada por usuarios verificados y comprometidos./
+    """}]
+
+@csrf_exempt
+def chat(request):
+    if request.method == 'POST':
+        user_input = request.POST.get('user_input', '')
+        if user_input.lower() == 'terminar':
+            response_data = {'response': 'Conversación Finalizada.'}
+        else:
+            collect_messages(user_input, context)
+            response_data = {'response': context[-1]['content']}
+        return JsonResponse(response_data)
+    elif request.method == 'GET':
+        # Manejar la solicitud GET para la página principal o el chat inicial
+        return render(request, 'chat.html', {})
+    else:
+        # Manejar otros tipos de solicitudes (opcional)
+        return HttpResponse(status=405)  # Método no permitido

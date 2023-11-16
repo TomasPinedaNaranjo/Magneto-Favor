@@ -1,36 +1,46 @@
-<!-- chat.html -->
+<!-- chatbot/templates/chatbot/chat.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGPT</title>
+    <title>Chatbot</title>
 </head>
 <body>
     <div id="chat-container">
-        <div id="chat-display"></div>
-        <input type="text" id="user-input" placeholder="Escribe tu mensaje..." />
-        <button onclick="sendMessage()">Enviar</button>
+        <div id="chat-messages"></div>
+        <form id="chat-form">
+            {% csrf_token %}
+            <label for="user-input">Tú:</label>
+            <input type="text" id="user-input" name="user_input">
+            <button type="button" onclick="sendMessage()">Enviar</button>
+        </form>
     </div>
 
     <script>
         function sendMessage() {
-            var user_input = document.getElementById('user-input').value;
+            var user_input = document.getElementById("user-input").value;
+            appendMessage("Tú", user_input);
 
             // Enviar la solicitud al servidor Django
-            fetch('/chat/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({ user_input: user_input })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Mostrar la respuesta en el chat
-                document.getElementById('chat-display').innerHTML += `<p>Asistente: ${data.response}</p>`;
-            });
+            var formData = new FormData(document.getElementById("chat-form"));
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/chatbot/chat/", true);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");  // Agrega esta línea
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    appendMessage("Asistente", response.response);
+                }
+            };
+            xhr.send(formData);
+        }
+
+        function appendMessage(role, content) {
+            var chatMessages = document.getElementById("chat-messages");
+            var messageDiv = document.createElement("div");
+            messageDiv.innerHTML = "<strong>" + role + ":</strong> " + content;
+            chatMessages.appendChild(messageDiv);
         }
     </script>
 </body>
