@@ -50,4 +50,5 @@ urlpatterns = [
     path('pagar/', views.pasarela_pago, name='pasarela_pago'), 
     #chatgpt
     path('chat/', views.chat, name='chat'),
+    path('get_bot_response/', views.get_bot_response, name='get_bot_response'),
 ]
