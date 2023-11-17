@@ -22,95 +22,399 @@
     </div>
     <div class="col-sm-12 col-md-6">
       <div class="m-3 d-flex justify-content-center">
-        <p>¡Gracias por considerar MagnetoFavor como tu plataforma para promocionar tus servicios! En nuestra sección "Publicar Ofertas," te ofrecemos la oportunidad de llegar a una audiencia diversa y activa que busca servicios como el tuyo.</p>
+        <p>
+          ¡Gracias por considerar MagnetoFavor como tu plataforma para
+          promocionar tus servicios! En nuestra sección "Publicar Ofertas," te
+          ofrecemos la oportunidad de llegar a una audiencia diversa y activa
+          que busca servicios como el tuyo.
+        </p>
       </div>
     </div>
     <div class="row mx-auto">
-        <div class="col-sm-12 col-md-12">
-            <div class="m-3 justify-content-center bg-light text-dark p-3 rounded-2">
-              <h3 class="m-0 p-0 text-center">Ingrese los datos de su oferta</h3>
-              {% if error%}
-              <div
-                id="opened-alert"
-                class="alert alert-danger alert-dismissible fade show"
-                role="alert"
-              >
-                <div>{{error}}</div>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="alert"
-                  aria-label="Close"
-                  id="close"
-                ></button>
-              </div>
-              {% else %} {% endif %}
-              <div class="form my-4 text-light">
-                <!-- ... Tu código HTML existente ... -->
-<div class="form my-4 text-light">
-  <form action="/crear_ofertas/" method="POST" required>
-    {% csrf_token %}
-    <div class="mb-3">
-      <div class="input-group mb-3">
-        <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Título</span>
-        <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" {{form.title}}>
-      </div>
-    </div>
-    <div class="mb-3">
-      <div class="input-group mb-3">
-        <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Latitud</span>
-        <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" {{form.lat}}>
-      </div>
-    </div>
-    <div class="mb-3">
-      <div class="input-group mb-3">
-        <span class="input-group-text bg-dark text-light" id="inputGroup-sizing">Longitud</span>
-        <input type="text" class="form-control bg-dark text-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing" {{form.lng}}>
-      </div>
-    </div>
-    <div class="mb-3">
-      <div class="form-floating">
-        <textarea class="form-control bg-dark text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 170px" {{ form.description }}>
-          <label for="floatingTextarea2">Descripción</label>
-        </textarea>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">
-      <i class="bi bi-file-earmark-plus-fill"></i> Publicar Oferta
-    </button>
-  </form>
-</div>
-<!-- ... Tu código HTML existente ... -->
-
-              </div>
+      <div class="col-sm-12 col-md-12">
+        <div
+          class="m-3 justify-content-center bg-light text-dark p-3 rounded-2"
+        >
+          <h3 class="m-0 p-0 text-center">Ingrese los datos de su oferta</h3>
+          {% if error%}
+          <div
+            id="opened-alert"
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <div>{{error}}</div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+              id="close"
+            ></button>
+          </div>
+          {% else %} {% endif %}
+          <div class="form my-4 text-light">
+            <!-- ... Tu código HTML existente ... -->
+            <div class="form my-4 text-light">
+              <form action="/crear_ofertas/" method="POST" required>
+                {% csrf_token %}
+                <div class="mb-3">
+                  <div class="input-group mb-3">
+                    <span
+                      class="input-group-text bg-dark text-light"
+                      id="inputGroup-sizing"
+                      >Título</span
+                    >
+                    <input
+                      id="title"
+                      type="text"
+                      class="form-control bg-dark text-light"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing"
+                      value=""
+                    />
+                  </div>
+                  <div class="d-none">{{form.title}}</div>
+                </div>
+                <div class="lat-lng" style="visibility: hidden; height: 0">
+                  <div class="mb-3">
+                    <div class="input-group mb-3">
+                      <span
+                        class="input-group-text bg-dark text-light"
+                        id="inputGroup-sizing"
+                        >Latitud</span
+                      >
+                      <input
+                        type="text"
+                        id="form-lat"
+                        class="form-control bg-dark text-light"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing"
+                        {{form.lat}}
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="input-group mb-3">
+                      <span
+                        class="input-group-text bg-dark text-light"
+                        id="inputGroup-sizing"
+                        >Longitud</span
+                      >
+                      <input
+                        type="text"
+                        id="form-lng"
+                        class="form-control bg-dark text-light"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing"
+                        {{form.lng}}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3 text-dark">
+                  <h2>Agregue La Ubicación</h2>
+                  <div class="form-floating d-flex flex-column my-2 gap-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ubi-text"
+                      placeholder=""
+                    />
+                    <label for="ubi-text">Ingrese la ubicación</label>
+                    <div
+                      class="btn-group"
+                      role="group"
+                      aria-label="Basic example"
+                    >
+                      <button
+                        id="clearBtn"
+                        type="button"
+                        class="btn btn-danger"
+                      >
+                        Limpiar
+                      </button>
+                      <button
+                        id="submitBtn"
+                        type="button"
+                        class="btn btn-primary"
+                      >
+                        Buscar
+                      </button>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div id="map"></div>
+                    <script
+                      src="https://maps.googleapis.com/maps/api/js?key={}&callback=initMap&v=weekly&libraries=places&callback=initMap"
+                      async
+                      defer
+                    ></script>
+                    <!-- <script
+                      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQE3frgCjhOse0DI_67ViFZ0jaB77x85I&libraries=places&callback=initMap"
+                      async
+                      defer
+                    ></script> -->
+                    <!-- <h4 id="lat">Lat</h4>
+                    <h4 id="lon">Lon</h4> -->
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="form-floating">
+                    <textarea
+                      class="form-control bg-dark text-light"
+                      placeholder="Leave a comment here"
+                      id="floatingTextarea2"
+                      style="height: 120px"
+                      {{form.description}}
+                    >
+                      <label for="floatingTextarea2">Descripción</label>
+                    </textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-file-earmark-plus-fill"></i> Publicar Oferta
+                </button>
+              </form>
             </div>
           </div>
+        </div>
+      </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 p-5">
-            <h2>¿Qué servicios puedes ofrecer?</h2><br>
-            <p class="text-secondary">En MagnetoFavor, valoramos la variedad y la calidad de los servicios. Puedes publicar ofertas en una amplia gama de categorías, que incluyen:</p>
+      <div class="col-sm-12 p-5">
+        <h2>¿Qué servicios puedes ofrecer?</h2>
+        <br />
+        <p class="text-secondary">
+          En MagnetoFavor, valoramos la variedad y la calidad de los servicios.
+          Puedes publicar ofertas en una amplia gama de categorías, que
+          incluyen:
+        </p>
 
-            <ul>
-                <li><span>Jardinería</span></li>
-                <li><span>Servicios de Mesero</span></li>
-                <li><span>Cuidado del Hogar</span></li>
-                <li><span>Otros Servicios</span></li>
-            </ul>
+        <ul>
+          <li><span>Jardinería</span></li>
+          <li><span>Servicios de Mesero</span></li>
+          <li><span>Cuidado del Hogar</span></li>
+          <li><span>Otros Servicios</span></li>
+        </ul>
 
-            <h2>¿Por qué elegir MagnetoFavor para publicar tus ofertas?</h2><br>
-            <li class="text-secondary"><strong class="text-white">Alcance y Visibilidad:</strong> MagnetoFavor cuenta con una base de usuarios activos en busca de servicios de calidad. Publicar tus ofertas aquí te brindará una amplia visibilidad y la oportunidad de llegar a nuevos clientes.</li><br>
-            <li class="text-secondary"><strong class="text-white">Facilidad de Uso:</strong> Nuestra plataforma es intuitiva y fácil de usar. Publicar tus ofertas es un proceso sencillo, lo que te permite centrarte en lo que haces mejor: brindar servicios excepcionales.</li><br>
-            <li class="text-secondary"><strong class="text-white">Comunidad Confiable:</strong> En MagnetoFavor, valoramos la confianza y la seguridad. Nuestra comunidad está formada por usuarios verificados y comprometidos.</li><br>
-            <li class="text-secondary"><strong class="text-white">Comentarios y Calificaciones:</strong> Los clientes pueden dejar comentarios y calificaciones, lo que te ayudará a construir una reputación sólida y ganar la confianza de futuros clientes.</li><br>
-            <p class="text-secondary">Únete a MagnetoFavor y comienza a publicar tus ofertas hoy mismo. Convierte tu pasión y experiencia en una fuente de ingresos mientras ayudas a satisfacer las necesidades de nuestra creciente comunidad de usuarios. ¡Esperamos verte prosperar en MagnetoFavor!</p>
-        </div>
+        <h2>¿Por qué elegir MagnetoFavor para publicar tus ofertas?</h2>
+        <br />
+        <li class="text-secondary">
+          <strong class="text-white">Alcance y Visibilidad:</strong>
+          MagnetoFavor cuenta con una base de usuarios activos en busca de
+          servicios de calidad. Publicar tus ofertas aquí te brindará una amplia
+          visibilidad y la oportunidad de llegar a nuevos clientes.
+        </li>
+        <br />
+        <li class="text-secondary">
+          <strong class="text-white">Facilidad de Uso:</strong> Nuestra
+          plataforma es intuitiva y fácil de usar. Publicar tus ofertas es un
+          proceso sencillo, lo que te permite centrarte en lo que haces mejor:
+          brindar servicios excepcionales.
+        </li>
+        <br />
+        <li class="text-secondary">
+          <strong class="text-white">Comunidad Confiable:</strong> En
+          MagnetoFavor, valoramos la confianza y la seguridad. Nuestra comunidad
+          está formada por usuarios verificados y comprometidos.
+        </li>
+        <br />
+        <li class="text-secondary">
+          <strong class="text-white">Comentarios y Calificaciones:</strong> Los
+          clientes pueden dejar comentarios y calificaciones, lo que te ayudará
+          a construir una reputación sólida y ganar la confianza de futuros
+          clientes.
+        </li>
+        <br />
+        <p class="text-secondary">
+          Únete a MagnetoFavor y comienza a publicar tus ofertas hoy mismo.
+          Convierte tu pasión y experiencia en una fuente de ingresos mientras
+          ayudas a satisfacer las necesidades de nuestra creciente comunidad de
+          usuarios. ¡Esperamos verte prosperar en MagnetoFavor!
+        </p>
+      </div>
     </div>
   </div>
 </div>
 
-
 <style>
+  /**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+  /** 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+  #map {
+    height: 400px;
+    /* padding: 50px; */
+  }
 
+  #map input {
+    display: none;
+  }
+
+  #response-container {
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+    margin: 10px;
+    padding: 0 0.5em;
+    font: 400 18px Roboto, Arial, sans-serif;
+    overflow: hidden;
+    overflow: auto;
+    max-height: 50%;
+    max-width: 90%;
+    background-color: rgba(255, 255, 255, 0.95);
+    font-size: small;
+  }
 </style>
+<!-- spell:disable -->
+<script>
+  /**
+   * @license
+   * Copyright 2019 Google LLC. All Rights Reserved.
+   * SPDX-License-Identifier: Apache-2.0
+   */
+  let map;
+  let marker;
+  let geocoder;
+  let response;
+
+  const formLat = document.getElementById('form-lat');
+  const formLng = document.getElementById('form-lng');
+  const lat = document.getElementById('lat');
+  const lon = document.getElementById('lon');
+  const inputText = document.getElementById('ubi-text');
+  const submitButton = document.getElementById('submitBtn');
+  const clearButton = document.getElementById('clearBtn');
+
+  const mapCenter = { lat: 6.200200033634236, lng: -75.57854927226015 };
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: mapCenter,
+      zoom: 14,
+      mapTypeControl: false,
+    });
+
+    const autocomplete = new google.maps.places.Autocomplete(inputText, {
+      componentRestrictions: { country: 'co' },
+    });
+
+    autocomplete.addListener('place_changed', function () {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) {
+        window.alert("No details available for input: '" + place.name + "'");
+        return;
+      }
+
+      // Si el lugar tiene una geometría, entonces presenta esta en un mapa.
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17);
+      }
+
+      marker.setPosition(place.geometry.location);
+      marker.setVisible(true);
+
+      const Latitud = JSON.stringify(place.geometry.location.lat());
+      const Longitud = JSON.stringify(place.geometry.location.lng());
+
+      formLat.value = Latitud;
+      formLng.value = Longitud;
+    });
+
+    geocoder = new google.maps.Geocoder();
+
+    marker = new google.maps.Marker({
+      map,
+    });
+
+    map.addListener('click', e => {
+      geocoder.geocode(
+        { address: 'Medellin, Colombia' },
+        function (results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+              inputText.value = results[0].formatted_address;
+              map.setCenter(e.latLng);
+              marker.setPosition(e.latLng);
+              marker.setVisible(true);
+              formLat.value = JSON.stringify(e.latLng.lat());
+              formLng.value = JSON.stringify(e.latLng.lng());
+              var cityBounds = results[0].geometry.bounds;
+
+              var options = {
+                bounds: cityBounds,
+                strictBounds: true,
+              };
+            } else {
+              window.alert('No results found');
+            }
+          } else {
+            window.alert('Geocoder failed due to: ' + status);
+          }
+        }
+      );
+      // alert(e.latLng);
+    });
+    submitButton.addEventListener('click', () =>
+      geocode({ address: inputText.value })
+    );
+    clearButton.addEventListener('click', () => {
+      clear();
+    });
+    // clear();
+  }
+
+  function clear() {
+    // marker.setMap(null);
+    marker.setVisible(false);
+    map.setCenter(mapCenter);
+    inputText.value = '';
+    formLat.value = '';
+    formLng.value = '';
+  }
+
+  function geocode(request) {
+    // clear();
+    geocoder
+      .geocode(request)
+      .then(result => {
+        const { results } = result;
+
+        map.setCenter(results[0].geometry.location);
+        marker.setPosition(results[0].geometry.location);
+        marker.setMap(map);
+        const Latitud = JSON.stringify(results[0].geometry.location.lat());
+        const Longitud = JSON.stringify(results[0].geometry.location.lng());
+        // const coords = result;
+        // response.innerText = JSON.stringify(result, null, 2);
+        formLat.value = Latitud;
+        formLng.value = Longitud;
+        // lat.innerHTML = 'Lat: ' + Latitud;
+        // lon.innerHTML = 'Lon: ' + Longitud;
+        return results;
+      })
+      .catch(e => {
+        alert('Geocode was not successful for the following reason: ' + e);
+      });
+  }
+
+  window.initMap = initMap;
+
+  // Put styled inputs in django forms
+  const title = document.getElementById('title');
+  const djangoTitle = document.getElementById('id_title');
+
+  title.addEventListener('input', () => {
+    djangoTitle.value = title.value;
+  });
+</script>
 {% endblock %}

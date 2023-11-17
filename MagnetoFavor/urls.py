@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path
 from ofertas import views
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -52,4 +55,4 @@ urlpatterns = [
     #chatbot
     path('chat/', views.chat, name='chat'),
     path('get_bot_response/', views.get_bot_response, name='get_bot_response'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
