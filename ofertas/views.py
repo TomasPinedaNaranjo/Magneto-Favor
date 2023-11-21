@@ -87,7 +87,7 @@ def eliminar_oferta(request, oferta_id):
 def mapa(request):
     locations = Ofertas.objects.all()
 
-    initialMap = folium.Map(location=[6.199939, -75.578608], zoom_start= 20)
+    initialMap = folium.Map(location=[6.199939, -75.578608], zoom_start= 14)
 
     
 
@@ -378,7 +378,7 @@ def mis_ofertas(request):
     return render(request, 'mis_ofertas.html', {'ofertas': ofertas_usuario})
 
 #chatbot
-openai.api_key = ''
+openai.api_key = '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'
 
 
 def get_completion(prompt, model="gpt-3.5-turbo"):

@@ -1,15 +1,41 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container container-home text-white">
+  <h1 class="text-center">Mapa</h1>
+  <div class="row my-3">
+    <div class="col-sm-12 col-md-6 d-flex justify-content-center mb-3">
+      <img
+        class="w-50"
+        src="{% static '/public/undraw_right_direction_tge8.svg' %}"
+        alt=""
+      />
+    </div>
+    <div
+      class="col-sm-12 col-md-6 d-flex flex-column justify-content-center mb-3"
+    >
+      <p>
+        ¿Estás buscando un nuevo trabajo? ¿Quieres encontrar oportunidades
+        laborales cerca de tu casa o tu lugar de trabajo?
+      </p>
+      <p>
+        En esta página, encontrarás un mapa con todas las ofertas de trabajo
+        disponibles en tu zona.
+      </p>
+      <p>
+        <strong
+          >Para ver más información sobre una oferta de trabajo, haz clic en el
+          pin.</strong
+        >
+      </p>
+      <p>¡Empieza a buscar tu nuevo trabajo hoy mismo!</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="d-flex justify-content-center align-content-center">
+      <div id="map" class="centered-map w-75 rounded-2 overflow-hidden">
+        {{ map|safe }}
+      </div>
+    </div>
+  </div>
+</div>
 
-{% block content %}
-  <style>
-    .centered-map {
-      width: 80%; /* Puedes ajustar el porcentaje o usar un valor específico en píxeles */
-      max-width: 1500px; /* Puedes ajustar el valor máximo */
-      margin: 0 auto; /* Centra horizontalmente el contenedor */
-      height: 500px; /* Puedes ajustar la altura según tus necesidades */
-    }
-  </style>
-
-  <h1>Mapa</h1>
-  <div id="map" class="centered-map">{{ map|safe }}</div>
 {% endblock %}

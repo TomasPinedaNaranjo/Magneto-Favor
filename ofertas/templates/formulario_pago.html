@@ -1,20 +1,229 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Pasarela de Pago</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Formulario de Pago</h1>
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Pagar</button>
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Pagar</button>
     </form>
-</body>
-</html>
+  </body>
+</html> -->
+
+<div class="container container-home text-white">
+  <div class="row">
+    <h1>Realizar Pago</h1>
+    <hr />
+    <div class="col-sm-12">
+      <form method="post">
+        {% csrf_token %}
+        <!-- {% csrf_token %}
+        <br />
+        <p>#</p>
+        {{ form.card_number }}
+        <br />
+        <p>EXPIRY</p>
+        {{ form.card_expiry }}
+        <br />
+        <p>CVV</p>
+        {{ form.card_cvv}}
+        <p>AMOUNT</p>
+        {{ form.amount }}
+        <button type="submit" class="btn btn-success">Pagar</button> -->
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="Alfredo Cerna"
+            required
+          />
+          <label class="text-dark" for="floatingInput">Nombre en tarjeta</label>
+        </div>
+        <div class="number form-floating mb-3">
+          <div class="bank-img"></div>
+          <input
+            type="text"
+            pattern="[0-9\s]{13,19}"
+            autocomplete="cc-number"
+            maxlength="19"
+            placeholder="xxxx xxxx xxxx xxxx"
+            class="form-control"
+            id="card-number"
+            required
+            {{form.card_number}}
+          
+          <label class="text-dark" for="card-number">Número de tarjeta</label>
+        </div>
+        <div class="d-flex justify-content-between gap-2">
+          <div class="number form-floating mb-3">
+            <input
+              class="form-control"
+              type="text"
+              id="expiry-date"
+              placeholder="MM/YY"
+              required
+              {{form.card_expiry}}
+            
+            <label class="text-dark" for="card-number"
+              >Expiración (mm/aa)</label
+            >
+          </div>
+          <div class="number form-floating mb-3">
+            <input
+              type="text"
+              id="card-cvv"
+              class="form-control"
+              required
+              {{form.card_cvv}}
+            
+            <label class="text-dark" for="card-number">Número de CVV</label>
+          </div>
+        </div>
+        <div class="number form-floating mb-3">
+          <input type="text" id="amount" class="form-control" required {{form.amount}}
+          <label class="text-dark" for="card-number">Cantidad</label>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-success">Pagar</button>
+        </div>
+      </form>
+      <div id="clg"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = selector => document.querySelector(selector);
+
+  const Mastercard = `<img src="../static/public/Mastercard-Logo.wine.png" alt="tarjeta" width="50px" />`;
+  const Visa = `<img src="../static/public/visa-payment-card1873.jpg" alt="tarjeta" width="50px" />`;
+
+  const cardNumber = $('#card-number');
+  const expiryDate = $('#expiry-date');
+  const cardCvv = $('#card-cvv');
+  const amount = $('#amount');
+  const bankImg = $('.bank-img');
+  const clg = $('#clg');
+
+  const min = 2221;
+  const max = 2720;
+
+  cardNumber.addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    let value = e.target.value.replace(/\s/g, '');
+    let formattedValue = '';
+
+    for (let i = 0; i < value.length; i++) {
+      if (i > 0 && i % 4 === 0) {
+        formattedValue += ' ';
+      }
+      formattedValue += value[i];
+    }
+    e.target.value = formattedValue;
+
+    if (value.length >= 4) {
+      if (Number(value.substring(0, 1)) == 4) {
+        bankImg.innerHTML = Visa;
+      } else if (
+        (value >= min && value <= max) ||
+        Number(value.substring(0, 2)) >= 51 ||
+        Number(value.substring(0, 2)) <= 55
+      ) {
+        bankImg.innerHTML = Mastercard;
+      }
+    } else {
+      bankImg.innerHTML = '';
+    }
+
+    if (value.length == 16) {
+      cardNumber.classList.remove('is-invalid');
+      cardNumber.classList.add('is-valid');
+    } else {
+      cardNumber.classList.remove('is-valid');
+      cardNumber.classList.add('is-invalid');
+    }
+  });
+
+  expiryDate.addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-9/]/g, '');
+
+    if (this.value.length >= 5) {
+      this.value = this.value.slice(0, 5);
+      expiryDate.classList.remove('is-invalid');
+      expiryDate.classList.add('is-valid');
+    } else {
+      expiryDate.classList.remove('is-valid');
+      expiryDate.classList.add('is-invalid');
+    }
+
+    if (e.inputType === 'deleteContentBackward' && this.value.length === 2) {
+      this.value = this.value.slice(0, 1);
+    } else if (this.value.length === 2 && !this.value.includes('/')) {
+      this.value += '/';
+    }
+  });
+
+  cardCvv.addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-9/]/g, '');
+    if (this.value.length >= 3) {
+      this.value = this.value.slice(0, 3);
+      cardCvv.classList.remove('is-invalid');
+      cardCvv.classList.add('is-valid');
+    } else {
+      cardCvv.classList.remove('is-valid');
+      cardCvv.classList.add('is-invalid');
+    }
+  });
+
+  amount.toLocaleString('es-ES', {
+    style: 'currency',
+    currency: 'COP',
+  });
+
+  const formatter = new Intl.NumberFormat('es-ES', {
+    style: 'currency',
+    currency: 'COP',
+  });
+
+  amount.addEventListener('input', function (event) {
+    // Elimina cualquier carácter que no sea un número o un punto
+    this.value = this.value.replace(/[^0-9.]/g, '');
+
+    // Convierte la entrada en un número
+    let value = parseFloat(this.value);
+
+    // this.value = formatter.format(value);
+    if (value) {
+      clg.innerHTML = `<h3>Valor a pagar: ${formatter.format(value)}</h3>`;
+      this.value = value.toLocaleString('en-US');
+    } else {
+      clg.innerHTML = '';
+      this.value = '';
+    }
+  });
+</script>
+
+<style>
+  .number {
+    position: relative;
+  }
+
+  .bank-img {
+    position: absolute;
+    right: 27px;
+    top: 12px;
+  }
+
+  /* #card-number {
+    background-color: #f8f8f8;
+    color: #333;
+    font-family: 'Console', Courier, monospace;
+  } */
+</style>
 
 {% endblock %}
