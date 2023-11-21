@@ -20,18 +20,6 @@
             <cite>{{ oferta.fecha_terminacion|date:"F d, Y" }}</cite>
           </blockquote>
           {% endif %}
-          <div class="d-flex gap-2 justify-content-between">
-            <button type="submit" class="btn btn-warning">
-              <a class="text-dark" href="{% url 'calificar_oferta' oferta.id %}"
-                >Calificar empleador</a
-              >
-            </button>
-            <button type="submit" class="btn btn-success">
-              <a class="text-white" href="{% url 'pasarela_pago' %}"
-                >Realizar pago</a
-              >
-            </button>
-          </div>
         </div>
       </div>
     </div>

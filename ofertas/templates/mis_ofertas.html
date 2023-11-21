@@ -16,6 +16,18 @@
             <p>Aún no ha sido aceptada.</p>
             {% endif %} {% if oferta.terminada %}
             <p>Estado: Fue completada</p>
+            <div class="d-flex gap-2 justify-content-between">
+              <button type="submit" class="btn btn-warning">
+                <a class="text-dark" href="{% url 'calificar_oferta' oferta.id %}"
+                  >Calificar empleador</a
+                >
+              </button>
+              <button type="submit" class="btn btn-success">
+                <a class="text-white" href="{% url 'pasarela_pago' %}"
+                  >Realizar pago</a
+                >
+              </button>
+            </div>
             {% else %}
             <p>Estado: Sin completar</p>
             {% endif %}
