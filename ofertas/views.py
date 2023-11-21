@@ -378,7 +378,7 @@ def mis_ofertas(request):
     return render(request, 'mis_ofertas.html', {'ofertas': ofertas_usuario})
 
 #chatbot
-openai.api_key = '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'
+openai.api_key = ''
 
 
 def get_completion(prompt, model="gpt-3.5-turbo"):
