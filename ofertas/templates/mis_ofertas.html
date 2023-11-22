@@ -1,51 +1,73 @@
 {% extends 'base.html' %}{% block content %}
-<div class="container">
-    <h1>Mis ofertas</h1>
-    <div class="row">
+<div class="container container-home text-bg-dark">
+  <h1>Mis ofertas</h1>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card-grid">
         {% for oferta in ofertas %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ oferta.title }}</h5>
-                    <p class="card-text">{{ oferta.description }}</p>
-                    {% if oferta.aceptada %}
-                        <p>Aceptada por: {{ oferta.aceptada_por.username }}</p>
-                    {% else %}
-                        <p>Aún no ha sido aceptada.</p>
-                    {% endif %}
-                    {% if oferta.terminada %}
-                        <p>Estado: Fue completada</p>
-                    {% else %}
-                        <p>Estado: Sin completar</p>
-                    {% endif %}
-                </div>
+        <div class="card text-bg-dark">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="m-0">{{ oferta.title }}</h5>
+              <div class="">
+                {% if oferta.terminada %}
+                <p class="bg-success rounded-5 p-2 m-0">Completada</p>
+                {% else %}
+                <p class="bg-danger rounded-5 p-2 m-0">Sin completar</p>
+                {% endif %}
+              </div>
+              <!-- <p class="m-0">Completada</p> -->
             </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text">{{ oferta.description }}</p>
+            {% if oferta.aceptada %}
+            <p class="bg-warning rounded-5 p-1 m-0 text-dark text-center">
+              Aceptada por {{ oferta.aceptada_por.username }}
+            </p>
+            {% else %}
+            <p class="bg-danger rounded-5 p-1 m-0 text-center">
+              Aún no ha sido aceptada
+            </p>
+            {% endif %} {% if oferta.terminada %}
+            <div class="d-flex gap-2 justify-content-between mt-4">
+              <button type="submit" class="btn btn-secondary">
+                <a
+                  class="text-light"
+                  href="{% url 'calificar_oferta' oferta.id %}"
+                  >Calificar empleador</a
+                >
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <a class="text-white" href="{% url 'pasarela_pago' %}"
+                  >Realizar pago</a
+                >
+              </button>
+            </div>
+            {% endif %}
+          </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <p>No tienes ofertas en curso.</p>
+          <p>No tienes ofertas en curso.</p>
         </div>
         {% endfor %}
+      </div>
     </div>
+  </div>
 </div>
 
+<style>
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 15px;
+  }
 
-
+  a {
+    text-decoration: none;
+  }
+</style>
 
 {% endblock %}
-
-
-
-
-{% for oferta in ofertas %}
-      <li>
-        <strong>{{ oferta.title }}</strong>
-        <p>{{ oferta.description }}</p>
-        {% if oferta.aceptada %}
-          <p>Aceptada por: {{ oferta.aceptada_por.username }}</p>
-        {% else %}
-          <p>Aún no ha sido aceptada.</p>
-        {% endif %}
-        <!-- Agrega botones o enlaces para editar o eliminar las ofertas aquí si lo necesitas -->
-      </li>
-    {% endfor %}

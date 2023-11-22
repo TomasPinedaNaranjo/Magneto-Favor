@@ -1,28 +1,37 @@
+<!-- cspell:disable -->
 {% extends 'base.html' %} {% block content %}
-<div class="container">
-  <h1>Servicios Realizados</h1>
-  <div class="row">
+<div class="container container-home text-white">
+  <h1 class="mb-4">Servicios Realizados</h1>
+  <hr />
+  <div class="finished-offers row p-3">
     {% for oferta in ServiciosRealizados %}
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ oferta.title }}</h5>
+    <div class="card bg-dark p-0">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div class="">
+          <h3 class="card-title m-0">{{ oferta.title }}</h3>
+          <hr />
           <p class="card-text">{{ oferta.description }}</p>
+        </div>
+        <br />
+        <div class="">
           {% if oferta.fecha_terminacion %}
-          <p class="text-success">
-            Servicio completado el {{ oferta.fecha_terminacion|date:"F d, Y" }}
-          </p>
+          <blockquote class="text-secondary">
+            Servicio completado en
+            <cite>{{ oferta.fecha_terminacion|date:"F d, Y" }}</cite>
+          </blockquote>
           {% endif %}
-          <button type="submit" class="btn btn-warning">
-            <a href="{% url 'calificar_oferta' oferta.id %}"
-              >Calificar empleador</a
-            >
-          </button>
-          <button type="submit" class="btn btn-warning">
-            <a href="{% url 'pasarela_pago' %}"
-              >Pagar pago</a
-            >
-          </button>
+          <div class="d-flex gap-2 justify-content-between">
+            <button type="submit" class="btn btn-warning">
+              <a class="text-dark" href="{% url 'calificar_oferta' oferta.id %}"
+                >Calificar empleador</a
+              >
+            </button>
+            <button type="submit" class="btn btn-success">
+              <a class="text-white" href="{% url 'pasarela_pago' %}"
+                >Realizar pago</a
+              >
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -30,4 +39,19 @@
     <!-- Agrega el cierre del for -->
   </div>
 </div>
+
+<style>
+  .finished-offers,
+  ul {
+    display: grid;
+    /* align-items: stretch; */
+    /* grid-auto-rows: 1fr; */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>
 {% endblock %}

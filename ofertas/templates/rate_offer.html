@@ -1,8 +1,6 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -28,5 +26,238 @@
     </form>
 
 </body>
-</html>
+</html> -->
+
+<div class="container container-home">
+  <div class="row">
+    <div class="col-sm-12 text-white">
+      <h1>Calificar Oferta</h1>
+      <hr />
+      <!-- <form method="post" class="my-4">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="{{ form.overall_experience.id_for_label }}"
+            >¿Cómo calificarías tu experiencia general con el servicio?</label
+          >
+          {{ form.overall_experience }}
+        </div>
+        <div class="form-group mt-3">
+          <label for="{{ form.would_use_again.id_for_label }}"
+            >¿Volverías a pedir servicio con esta persona?</label
+          >
+          {{ form.would_use_again }}
+        </div>
+        <div class="d-flex flex-column my-3">
+          <label for="{{ form.improvement_suggestions.id_for_label }}"
+            >Recomendaciones para mejorar el servicio</label
+          >
+          {{ form.improvement_suggestions }}
+        </div>
+        <button type="submit" class="btn btn-primary">Calificar</button>
+      </form> -->
+      <div class="">
+        <form method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <h3>
+                ¿Cómo calificarías tu experiencia general con el servicio?
+              </h3>
+              <div class="stars d-flex">
+                {% for choice in form.overall_experience %}
+                <label for="{{ choice.id_for_label }}" class="radio-container">
+                  {{ choice.tag }}
+                  <i
+                    class="bi bi-star radio-custom"
+                    id="star_{{ forloop.counter }}"
+                  ></i>
+                </label>
+                {% endfor %}
+                <!-- <label for="id_overall_experience_1" class="radio-container">
+                  <input
+                    type="radio"
+                    name="radio"
+                    id="id_overall_experience_1"
+                    {{form.overall_experience_1}}
+                  />
+                  <i class="bi bi-star radio-custom" id="star_1"></i>
+                </label>
+                <label for="id_overall_experience_2" class="radio-container">
+                  <input
+                    type="radio"
+                    name="radio"
+                    id="id_overall_experience_2"
+                    {{form.overall_experience_2}}
+                  />
+                  <i class="bi bi-star radio-custom" id="star_2"></i>
+                </label>
+                <label for="id_overall_experience_3" class="radio-container">
+                  <input
+                    type="radio"
+                    name="radio"
+                    id="id_overall_experience_3"
+                    {{form.overall_experience_3}}
+                  />
+                  <i class="bi bi-star radio-custom" id="star_3"></i>
+                </label>
+                <label for="id_overall_experience_4" class="radio-container">
+                  <input
+                    type="radio"
+                    name="radio"
+                    id="id_overall_experience_4"
+                    {{form.overall_experience_4}}
+                  />
+                  <i class="bi bi-star radio-custom" id="star_4"></i>
+                </label>
+                <label for="id_overall_experience_5" class="radio-container">
+                  <input
+                    type="radio"
+                    name="radio"
+                    id="id_overall_experience_5"
+                    {{form.overall_experience_5}}
+                  />
+                  <i class="bi bi-star radio-custom" id="star_5"></i>
+                </label> -->
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 again">
+              <h3>¿Volverías a pedir servicio con esta persona?</h3>
+              {% for choice in form.would_use_again %}
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="{{ form.would_use_again.name }}"
+                  id="{{ choice.id_for_label }}"
+                />
+                <label class="form-check-label" for="{{ choice.id_for_label }}">
+                  {{ choice.choice_label }}
+                </label>
+              </div>
+              {% endfor %}
+              <!-- <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="id_would_use_again_0"
+                  checked
+                  {{form.would_use_again_0}}
+                />
+                <label class="form-check-label" for="id_would_use_again_0">
+                  ¡Por supuesto que si!
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="id_would_use_again_1"
+                  {{form.would_use_again_1}}
+                />
+                <label class="form-check-label" for="id_would_use_again_1">
+                  No, en verdad no lo pediría de nuevo.
+                </label>
+              </div> -->
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="comments col-sm-12">
+              <div class="row">
+                <div class="col-sm-0 col-md-3"></div>
+                <div class="col-sm-12 col-md-6">
+                  <h3>¿Tienes algún comentario adicional?</h3>
+                  <div class="form-floating text-dark mt-3">
+                    <textarea
+                      class="form-control"
+                      placeholder="Leave a comment here"
+                      id="id_improvement_suggestions"
+                      {{form.improvement_suggestions}}
+                    ></textarea>
+                    <label for="id_improvement_suggestions">Comentarios</label>
+                  </div>
+                </div>
+                <div class="col-sm-0 col-md-3"></div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Calificar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script defer>
+  const $ = selector => document.querySelector(selector);
+  const starsContainer = $('.stars');
+  const star1 = $('#star_1');
+  const star2 = $('#star_2');
+  const star3 = $('#star_3');
+  const star4 = $('#star_4');
+  const star5 = $('#star_5');
+
+  const input1 = $('#id_overall_experience_0');
+  const input2 = $('#id_overall_experience_1');
+  const input3 = $('#id_overall_experience_2');
+  const input4 = $('#id_overall_experience_3');
+  const input5 = $('#id_overall_experience_4');
+
+  const stars = [star1, star2, star3, star4, star5];
+  const inputs = [input1, input2, input3, input4, input5];
+
+  inputs.map(input => {
+    input.addEventListener('change', e => {
+      stars.map(star => {
+        star.classList.add('bi-star');
+        star.classList.remove('bi-star-fill');
+        star.classList.remove('text-warning');
+      });
+      const index = inputs.indexOf(e.target);
+      const previousStars = inputs.slice(0, index + 1);
+
+      for (let i = 0; i < previousStars.length; i++) {
+        stars[i].classList.add('bi-star-fill');
+        stars[i].classList.add('text-warning');
+        stars[i].classList.remove('bi-star');
+      }
+    });
+  });
+
+  const textarea = $('#id_improvement_suggestions');
+
+  textarea.addEventListener('input', e => {
+    e.target.style.height = 'auto';
+    e.target.style.height = e.target.scrollHeight + 'px';
+  });
+</script>
+
+<style>
+  .stars i {
+    font-size: 2rem;
+    /* color: #ffc107; */
+  }
+
+  i::before {
+    transition: all 0.3s;
+    margin: 0 0.2rem;
+  }
+
+  i:hover {
+    cursor: pointer;
+  }
+
+  .radio-container input[type='radio'] {
+    display: none;
+  }
+
+  textarea {
+    resize: none;
+    min-height: 100px;
+    height: auto;
+  }
+</style>
 {% endblock %}

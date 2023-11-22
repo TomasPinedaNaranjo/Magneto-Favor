@@ -19,6 +19,7 @@ import openai
 import os
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 #aplica el principio DRY
 
 def manejar_formulario_oferta(request, form_class, template_name, redirect_url, oferta=None):
@@ -27,7 +28,7 @@ def manejar_formulario_oferta(request, form_class, template_name, redirect_url, 
         if form.is_valid():
             nueva_oferta = form.save(commit=False)
             if not oferta:
-                #se esta creando una nueva oferta, adigna el user actual
+                #se esta creando una nueva oferta, asigna el user actual
                 #(request.user) como el creador antes de guardar en la db
                 nueva_oferta.user = request.user
             nueva_oferta.save()
@@ -86,7 +87,7 @@ def eliminar_oferta(request, oferta_id):
 def mapa(request):
     locations = Ofertas.objects.all()
 
-    initialMap = folium.Map(location=[6.199939, -75.578608], zoom_start= 20)
+    initialMap = folium.Map(location=[6.199939, -75.578608], zoom_start= 14)
 
     
 
@@ -377,7 +378,7 @@ def mis_ofertas(request):
     return render(request, 'mis_ofertas.html', {'ofertas': ofertas_usuario})
 
 #chatbot
-openai.api_key = 'su api key'
+openai.api_key = ''
 
 
 def get_completion(prompt, model="gpt-3.5-turbo"):

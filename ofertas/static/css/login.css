@@ -9,7 +9,7 @@
 
 body {
   background-color: #11183f !important;
-  background: url('../public/desing_bg\ 1.svg') no-repeat;
+  background: url('../pattern.svg') no-repeat;
   background-attachment: fixed;
   background-size: cover;
   overflow-x: hidden;
@@ -294,7 +294,12 @@ body {
   }
 }
 
-/* Crear oferta */
-/* #container-crear-oferta {
-  background-color: #000 !important;
-} */
+/* !clear input outlines */
+*:focus {
+  box-shadow: none !important;
+}
+
+input:active {
+  outline: none;
+  border: none;
+}

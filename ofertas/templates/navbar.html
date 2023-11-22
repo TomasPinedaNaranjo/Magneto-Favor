@@ -1,7 +1,8 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <img src="../static/public/logo_v1.png" width="50px" alt="magneto logo" />
+      <img src="{% static 'logo_v1.png' %}" width="50px" alt="magneto logo" />
       MagnetoFavor
     </a>
     <button
@@ -16,57 +17,83 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto gap-2">
         <li class="nav-item">
           <a href="/" class="nav-link"
             ><i class="bi bi-house-fill"></i> Inicio</a
           >
         </li>
         {% if user.is_authenticated %}
-
         <li class="nav-item">
-          <a class="nav-link" href="/ofertas"
-            ><i class="bi bi-postcard-fill"></i> Ofertas</a
-          >
+          <a href="/chat" class="nav-link"><i class="bi bi-robot"></i> Chat</a>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="/mapa"
-            ><i class="bi bi-postcard-fill"></i> Mapa</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/mis_ofertas"
-            ><i class="bi bi-postcard-fill"></i> Mis Ofertas</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/ofertas_en_curso"
-            ><i class="bi bi-postcard-fill"></i> Ofertas en Curso</a
-          >
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="/servicios_terminados"
-            ><i class="bi bi-postcard-fill"></i> Servicios terminados</a
-          >
-        </li>
-
         <li class="nav-item">
           <a class="nav-link" href="/crear_ofertas"
             ><i class="bi bi-file-earmark-plus-fill"></i> Crear Oferta</a
           >
         </li>
-        <li class="nav-item">
-          <a href="/edit_user" class="nav-link"
-            ><i class="bi bi-key-fill"></i> Mi Perfil</a
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
           >
-        </li>
+            <i class="bi bi-card-list"></i> Ofertas
+          </a>
+          <ul class="dropdown-menu bg-dark">
+            <li class="nav-item">
+              <a class="nav-link" href="/ofertas"
+                ><i class="bi bi-table"></i> Ofertas</a
+              >
+            </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/logout"
-            ><i class="bi bi-lock-fill"></i> Cerrar Sesión</a
+            <li class="nav-item">
+              <a class="nav-link" href="/mapa"
+                ><i class="bi bi-map-fill"></i> Mapa</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/mis_ofertas"
+                ><i class="bi bi-person-lines-fill"></i> Mis Ofertas</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/ofertas_en_curso"
+                ><i class="bi bi-postcard-fill"></i> Ofertas en Curso</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/servicios_terminados"
+                ><i class="bi bi-card-checklist"></i> Servicios terminados</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
           >
+            <i class="bi bi-person-fill"></i> Perfil
+          </a>
+          <ul class="dropdown-menu bg-dark">
+            <li class="nav-item">
+              <a href="/edit_user" class="nav-link"
+                ><i class="bi bi-person-fill-gear"></i> Editar perfil</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout"
+                ><i class="bi bi-person-fill-lock"></i> Cerrar Sesión</a
+              >
+            </li>
+          </ul>
         </li>
 
         {% else %}
